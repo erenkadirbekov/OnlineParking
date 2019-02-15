@@ -15,4 +15,26 @@ public class Roles implements Serializable {
     @OneToMany(mappedBy = "role")
     private List<Users> users;
 
+    public Roles() {
+    }
+
+    public Roles(List<Users> users) {
+        this.users = users;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
 }
