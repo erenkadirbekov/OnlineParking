@@ -17,8 +17,8 @@
 
 <form action="/login" method="post">
 
-    Email: <input type="email" name="email">
-    Password: <input type="password" name="password">
+    Email: <input type="email" name="email_parameter">
+    Password: <input type="password" name="password_parameter">
     <button type="submit">Enter</button>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 

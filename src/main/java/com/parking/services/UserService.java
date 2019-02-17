@@ -20,7 +20,7 @@ public class UserService implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Users myUser = dbBean.getUser(s);
+        Users myUser = dbBean.getUserByEmail(s);
         Roles roles = myUser.getRole();
         Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
 

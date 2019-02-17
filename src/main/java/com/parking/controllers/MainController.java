@@ -70,6 +70,7 @@ public class MainController {
         ModelAndView mw = new ModelAndView("registration");
         return mw;
     }
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@RequestParam(name = "email")String email, @RequestParam(name = "password")String password, @RequestParam(name = "surname")String surname, @RequestParam(name = "name")String name){
 
@@ -90,7 +91,7 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!(authentication instanceof AnonymousAuthenticationToken)){
             UserDetails ud = (UserDetails) authentication.getPrincipal();
-            user = dbBean.getUser(ud.getUsername());
+            user = dbBean.getUserByEmail(ud.getUsername());
         }
         return user;
     }
