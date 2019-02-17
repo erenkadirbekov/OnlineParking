@@ -30,7 +30,12 @@
             </props>
         </property>
     </bean>
-    <bean id = "orderBean" class="com.firstspring.beans.OrderBean">
+
+    <bean id = "DBBean" class="com.parking.beans.DBBean">
         <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean name="userSecurity" class="com.parking.services.UserService">
+        <property name="dbBean" ref="DBBean"></property>
     </bean>
 </beans>

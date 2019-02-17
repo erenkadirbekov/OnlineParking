@@ -6,17 +6,19 @@
  http://www.springframework.org/schema/security
  http://www.springframework.org/schema/security/spring-security-4.0.xsd">
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/profile" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
-        <intercept-url pattern="/main" access="permitAll()"/>
+        <intercept-url pattern="/adminPage" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/employeePage" access="hasRole('ROLE_EMPLOYEE')" />
+        <intercept-url pattern="/managerPage" access="hasRole('ROLE_MANAGER')" />
+        <intercept-url pattern="/driverPage" access="hasRole('ROLE_DRIVER')" />
+        <intercept-url pattern="/index" access="permitAll()"/>
         <access-denied-handler error-page="/403" />
         <form-login
-                login-page="/enter"
-                default-target-url="/profile"
-                authentication-failure-url="/enter?error=1"
+                login-page="/index"
+                default-target-url="/goPage"
+                authentication-failure-url="/index?error=1"
                 username-parameter="email_parameter"
                 password-parameter="password_parameter" />
-        <logout logout-success-url="/enter?logout=1" />
+        <logout logout-success-url="/index?logout=1" />
         <csrf/>
     </http>
     <authentication-manager>

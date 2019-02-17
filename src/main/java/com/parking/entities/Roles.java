@@ -8,18 +8,14 @@ import java.util.List;
 @Table(name = "roles")
 public class Roles implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
     private Long id;
-
-    @OneToMany(mappedBy = "role")
-    private List<Users> users;
 
     public Roles() {
     }
 
-    public Roles(List<Users> users) {
-        this.users = users;
+    public Roles(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -30,11 +26,4 @@ public class Roles implements Serializable {
         this.id = id;
     }
 
-    public List<Users> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<Users> users) {
-        this.users = users;
-    }
 }
