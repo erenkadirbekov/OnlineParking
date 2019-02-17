@@ -28,7 +28,7 @@ public class DBBean {
         session.close();
     }
 
-    public Users getUser(String email) {
+    public Users getUserByEmail(String email) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Users> query = criteriaBuilder.createQuery(Users.class);

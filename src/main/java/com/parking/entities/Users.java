@@ -13,6 +13,7 @@ public class Users implements Serializable {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "role_id")
     private Roles role;
 
     @OneToMany(mappedBy = "user")
