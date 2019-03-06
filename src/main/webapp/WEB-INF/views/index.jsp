@@ -9,21 +9,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Login Page</title>
+    <title>Main Page</title>
 </head>
 <body>
 
 <a href="/registrationPage">Registration</a>
 
-<form action="/login" method="post">
+<a href="/loginPage">Login</a>
 
-    Email: <input type="email" name="email_parameter">
-    Password: <input type="password" name="password_parameter">
-    <button type="submit">Enter</button>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<h1>WELCOME PAGE</h1>
 
-</form>
-
+<form action="">
 
 </body>
 </html>

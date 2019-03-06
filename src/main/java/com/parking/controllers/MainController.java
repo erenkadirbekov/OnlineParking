@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -20,29 +21,28 @@ public class MainController {
 
     @Autowired
     DBBean dbBean;
+    DriverController driverController;
 
     @RequestMapping(value = {"index", "/"})
     public ModelAndView indexPage(){
         return new ModelAndView("index");
     }
 
-    @RequestMapping(value = "/goPage", method = RequestMethod.GET)
-    public String goPage(){
+    @RequestMapping(value = "/redirectPage", method = RequestMethod.GET)
+    public String redirectPage(RedirectAttributes redirectAttributes){
         Users user = getUserData();
-
-        if(user.getRole().getId()==1L) return "redirect:/driverPage";
-        else if(user.getRole().getId()==2L) return "redirect:/employeePage";
-        else if(user.getRole().getId()==3L) return "redirect:/managerPage";
-        else if(user.getRole().getId()==4L) return "redirect:/adminPage";
+        if (user != null) {
+            Long roleId = user.getRole().getId();
+            if (roleId == 1L) {
+                redirectAttributes.addFlashAttribute("user", user);
+                return "redirect:/Driver/driverPage";
+            }
+            else return "redirect:/index";
+        }
         else return "redirect:/index";
     }
 
-    @RequestMapping(value = "/driverPage", method = RequestMethod.GET)
-    public ModelAndView driverPage(){
-        ModelAndView mw = new ModelAndView("driverPage");
-        mw.addObject("user", getUserData());
-        return mw;
-    }
+
 
     @RequestMapping(value = "/employeePage", method = RequestMethod.GET)
     public ModelAndView employeePage(){
@@ -51,9 +51,9 @@ public class MainController {
         return mw;
     }
 
-    @RequestMapping(value = "/managerPage", method = RequestMethod.GET)
-    public ModelAndView managerPage(){
-        ModelAndView mw = new ModelAndView("managerPage");
+    @RequestMapping(value = "/ownerPage", method = RequestMethod.GET)
+    public ModelAndView ownerPage(){
+        ModelAndView mw = new ModelAndView("ownerPage");
         mw.addObject("user", getUserData());
         return mw;
     }
@@ -71,10 +71,16 @@ public class MainController {
         return mw;
     }
 
+    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
+    public ModelAndView loginPage(){
+        ModelAndView mw = new ModelAndView("login");
+        return mw;
+    }
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@RequestParam(name = "email")String email, @RequestParam(name = "password")String password, @RequestParam(name = "surname")String surname, @RequestParam(name = "name")String name){
 
-        Roles role = new Roles(1L);
+        Roles role = dbBean.getRoleByName("driver"); //get role from database owner
 
         password = DigestUtils.sha1Hex(password);
 
@@ -84,6 +90,7 @@ public class MainController {
 
         return "redirect:/index";
     }
+
 
 
     public Users getUserData(){

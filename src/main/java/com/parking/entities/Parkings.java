@@ -1,8 +1,15 @@
 package com.parking.entities;
 
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Latitude;
+import org.hibernate.search.annotations.Longitude;
+import org.hibernate.search.annotations.Spatial;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Spatial
+@Indexed
 @Entity
 @Table(name = "Parkings")
 public class Parkings implements Serializable {
@@ -10,6 +17,12 @@ public class Parkings implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "prk_id")
     private Long id;
+
+    @Latitude
+    private Double latitude;
+
+    @Longitude
+    private Double longitude;
 
     @Column(name = "slots_number")
     private int slots;
@@ -38,6 +51,36 @@ public class Parkings implements Serializable {
     private double cost;
 
     public Parkings() {
+    }
+
+    public Parkings(Double latitude, Double longitude, int slots, int availableSlots, Users owner, Cities city, String houseNumber, String street, String postalCode, double cost) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.slots = slots;
+        this.availableSlots = availableSlots;
+        this.owner = owner;
+        this.city = city;
+        this.houseNumber = houseNumber;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.cost = cost;
+    }
+
+    public Parkings(Double latitude, Double longitude, int slots, Users owner, Cities city, String houseNumber, String street, String postalCode, double cost) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.slots = slots;
+        this.owner = owner;
+        this.city = city;
+        this.houseNumber = houseNumber;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.cost = cost;
+    }
+
+    public Parkings(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Long getId() {
@@ -110,5 +153,21 @@ public class Parkings implements Serializable {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

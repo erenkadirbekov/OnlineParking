@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<a href="/index">Back to Index</a>
+<a href="/index">Main Page</a>
 
 <form action="/registration" method="post">
 

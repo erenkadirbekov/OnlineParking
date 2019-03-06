@@ -24,13 +24,7 @@ public class UserService implements UserDetailsService {
         Roles roles = myUser.getRole();
         Set<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
 
-        String role = "";
-
-        if(roles.getId()==1L) role = "ROLE_DRIVER";
-        else if(roles.getId()==2L) role = "ROLE_EMPLOYEE";
-        else if(roles.getId()==3L) role = "ROLE_MANAGER";
-        else if(roles.getId()==4L) role = "ROLE_ADMIN";
-        authorities.add(new SimpleGrantedAuthority(role));
+        authorities.add(new SimpleGrantedAuthority(roles.getName()));
 
         User securityUser = new User(myUser.getEmail(), myUser.getPassword(), authorities);
         return securityUser;
