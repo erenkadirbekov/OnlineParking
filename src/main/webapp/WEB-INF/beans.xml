@@ -42,7 +42,9 @@
     <bean id = "DriverBean" class="com.parking.beans.DriverBean">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
+    <bean id="OwnerBean" class="com.parking.beans.OwnerBean">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     <bean name="userSecurity" class="com.parking.services.UserService">
         <property name="dbBean" ref="DBBean"></property>
     </bean>

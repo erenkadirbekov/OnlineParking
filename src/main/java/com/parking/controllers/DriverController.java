@@ -26,10 +26,10 @@ public class DriverController {
     DriverBean driverBean;
 
     @RequestMapping(value = "/driverPage", method = RequestMethod.GET)
-    public ModelAndView driverPage(Model model){
-        ArrayList<Parkings> parkings = driverBean.getAllParkings();
+    public ModelAndView driverPage(){
+        ArrayList<Parkings> parkings = driverBean.getActiveParkings();
         ModelAndView mw = new ModelAndView("driverPage");
-        Users user = (Users) model.asMap().get("user");
+        Users user = dbBean.getUserData();
         mw.addObject("user", user);
         mw.addObject("parkings", parkings);
         return mw;

@@ -22,11 +22,12 @@ public class DriverBean {
         this.sessionFactory = sessionFactory;
     }
 
-    public ArrayList<Parkings> getAllParkings() {
+    public ArrayList<Parkings> getActiveParkings() {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Parkings> query = builder.createQuery(Parkings.class);
-        ArrayList<Parkings> parkings = (ArrayList<Parkings>) session.createQuery(query).getResultList();
+        Root<Parkings> root = query.from(Parkings.class);
+        ArrayList<Parkings> parkings = (ArrayList<Parkings>) session.createQuery(query.where(builder.equal(root.get("status"), 1))).getResultList();
         session.close();
 
         return parkings;
