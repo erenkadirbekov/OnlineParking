@@ -20,6 +20,7 @@
     </select>
 
     <button type="submit">SEND</button>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 </form>
 
 

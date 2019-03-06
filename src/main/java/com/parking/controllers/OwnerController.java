@@ -57,7 +57,7 @@ public class OwnerController {
                                 @RequestParam(name = "postal")String postal,
                                 @RequestParam(name = "city")Long cityId){
 
-        System.out.println("huinya");
+        System.out.println("Here");
         Parkings parkings = new Parkings(slots, dbBean.getUserData(), ownerBean.getCityById(cityId), house, street, postal, cost, 0);
         ownerBean.addNewParking(parkings);
 

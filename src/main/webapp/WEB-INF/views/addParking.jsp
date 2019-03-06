@@ -11,7 +11,7 @@
     <title>New parking</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="/Admin/addParking" method="post">
         Slots: ${parking.slots}
         Owner: ${parking.owner.name} ${parking.owner.surname}
         City: ${parking.city.name}
@@ -25,6 +25,7 @@
 
         <input type="hidden" name="id" value="${parking.id}">
         <button type="submit">ADD</button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 </body>
 </html>

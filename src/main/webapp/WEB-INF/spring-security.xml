@@ -11,6 +11,7 @@
         <intercept-url pattern="/ownerPage" access="hasRole('owner')" />
         <intercept-url pattern="/driverPage" access="hasRole('driver')" />
         <intercept-url pattern="/createParkingPage" access="hasRole('owner')" />
+        <intercept-url pattern="/createParking" access="hasRole('owner')" />
         <intercept-url pattern="/login" access="permitAll()"/>
         <intercept-url pattern="/index" access="permitAll() "/>
         <access-denied-handler error-page="/403" />

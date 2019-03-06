@@ -36,11 +36,12 @@
                     <td>${parking.street}</td>
                     <td>${parking.postalCode}</td>
                     <td>${parking.cost}</td>
-                    <td><a href="/Admin/addParking?id="${parking.id}" class="btn btn-primary">Confirm</a></td>
+                    <td><a href="/Admin/addParking?id=${parking.id}" class="btn btn-primary">Confirm</a></td>
                     <td>
                         <form action="/Admin/rejectRequest" method="post">
                             <input type="hidden" name="id" value="${parking.id}">
                             <button type="submit" class="btn btn-danger">Reject</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         </form>
                     </td>
                 </tr>

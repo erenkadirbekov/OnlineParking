@@ -6,6 +6,7 @@ import com.parking.entities.Roles;
 import com.parking.entities.Users;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,7 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 
 public class OwnerBean {
-
+    @Autowired
     DBBean dbBean;
 
     private SessionFactory sessionFactory;

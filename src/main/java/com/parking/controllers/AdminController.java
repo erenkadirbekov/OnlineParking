@@ -48,14 +48,14 @@ public class AdminController {
         parking.setLatitude(Double.parseDouble(latitude));
         parking.setLongitude(Double.parseDouble(longitude));
         parking.setStatus(1);
-        adminBean.addParking(parking);
+        adminBean.updateInactiveParking(parking);
 
-        return "redirect:/adminPage";
+        return "redirect:/Admin/adminPage";
     }
 
     @RequestMapping(value = "/rejectRequest", method = RequestMethod.POST)
     public String rejectRequest(@RequestParam(name = "id") Long id) {
         adminBean.deleteParkingById(id);
-        return "redirect:/requests";
+        return "redirect:/Admin/requests";
     }
 }
