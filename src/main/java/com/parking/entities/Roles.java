@@ -11,11 +11,15 @@ public class Roles implements Serializable {
     @Column(name = "role_id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     public Roles() {
     }
 
-    public Roles(Long id) {
+    public Roles(Long id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     public Long getId() {
@@ -26,4 +30,11 @@ public class Roles implements Serializable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

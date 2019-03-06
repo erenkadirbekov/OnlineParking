@@ -1,11 +1,10 @@
 package com.parking.beans;
 
-import com.parking.entities.Users;
-import org.hibernate.Session;
+import com.parking.entities.Parkings;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
-public class UserBean {
+public class AdminBean {
+    DBBean dbBean;
     private SessionFactory sessionFactory;
 
     public SessionFactory getSessionFactory() {
@@ -16,8 +15,8 @@ public class UserBean {
         this.sessionFactory = sessionFactory;
     }
 
-    public void addUser(Users user) {
-
+    public void addParking(Parkings parking) {
+        dbBean.addObject(parking);
     }
 
 
