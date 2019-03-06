@@ -12,8 +12,18 @@
 </head>
 <body>
     <form action="" method="post">
-        Latitude: <input type="text" name="latitude">
-        Longitude: <input type="text" name="longitude">
+        Slots: ${parking.slots}
+        Owner: ${parking.owner.name} ${parking.owner.surname}
+        City: ${parking.city.name}
+        House: ${parking.houseNumber}
+        Street: ${parking.street}
+        Postal Code: ${parking.postalCode}
+        Cost: ${parking.cost}
+
+        Latitude: <input type="text" name="latitude" placeholder="Enter latitude">
+        Longitude: <input type="text" name="longitude" placeholder="Enter longitude">
+
+        <input type="hidden" name="id" value="${parking.id}">
         <button type="submit">ADD</button>
     </form>
 </body>

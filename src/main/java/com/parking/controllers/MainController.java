@@ -21,7 +21,6 @@ public class MainController {
 
     @Autowired
     DBBean dbBean;
-    DriverController driverController;
 
     @RequestMapping(value = {"index", "/"})
     public ModelAndView indexPage(){
@@ -30,39 +29,25 @@ public class MainController {
 
     @RequestMapping(value = "/redirectPage", method = RequestMethod.GET)
     public String redirectPage(RedirectAttributes redirectAttributes){
-        Users user = getUserData();
+        Users user = dbBean.getUserData();
         if (user != null) {
             Long roleId = user.getRole().getId();
+            redirectAttributes.addFlashAttribute("user", user);
             if (roleId == 1L) {
-                redirectAttributes.addFlashAttribute("user", user);
                 return "redirect:/Driver/driverPage";
+            }
+            else if (roleId == 2L) {
+                return "redirect:/Employee/employeePage";
+            }
+            else if (roleId == 3L) {
+                return "redirect:/Owner/ownerPage";
+            }
+            else if (roleId == 4L) {
+                return "redirect:/Admin/adminPage";
             }
             else return "redirect:/index";
         }
         else return "redirect:/index";
-    }
-
-
-
-    @RequestMapping(value = "/employeePage", method = RequestMethod.GET)
-    public ModelAndView employeePage(){
-        ModelAndView mw = new ModelAndView("employeePage");
-        mw.addObject("user", getUserData());
-        return mw;
-    }
-
-    @RequestMapping(value = "/ownerPage", method = RequestMethod.GET)
-    public ModelAndView ownerPage(){
-        ModelAndView mw = new ModelAndView("ownerPage");
-        mw.addObject("user", getUserData());
-        return mw;
-    }
-
-    @RequestMapping(value = "/adminPage", method = RequestMethod.GET)
-    public ModelAndView adminPage(){
-        ModelAndView mw = new ModelAndView("adminPage");
-        mw.addObject("user", getUserData());
-        return mw;
     }
 
     @RequestMapping(value = "/registrationPage", method = RequestMethod.GET)
@@ -78,13 +63,17 @@ public class MainController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@RequestParam(name = "email")String email, @RequestParam(name = "password")String password, @RequestParam(name = "surname")String surname, @RequestParam(name = "name")String name){
+    public String registration(@RequestParam(name = "email")String email,
+                               @RequestParam(name = "password")String password,
+                               @RequestParam(name = "surname")String surname,
+                               @RequestParam(name = "name")String name,
+                               @RequestParam(name = "role")String role){
 
-        Roles role = dbBean.getRoleByName("driver"); //get role from database owner
+        Roles roles = dbBean.getRoleByName(role); //get role from database owner
 
         password = DigestUtils.sha1Hex(password);
 
-        Users user = new Users(role, name, surname, email, password);
+        Users user = new Users(roles, name, surname, email, password);
 
         dbBean.addUser(user);
 
@@ -93,15 +82,6 @@ public class MainController {
 
 
 
-    public Users getUserData(){
-        Users user = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!(authentication instanceof AnonymousAuthenticationToken)){
-            UserDetails ud = (UserDetails) authentication.getPrincipal();
-            user = dbBean.getUserByEmail(ud.getUsername());
-        }
-        return user;
-    }
 
 
 }

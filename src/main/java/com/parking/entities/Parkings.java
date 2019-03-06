@@ -50,6 +50,9 @@ public class Parkings implements Serializable {
     @Column(name = "cost")
     private double cost;
 
+    @Column(name = "status")
+    private int status;
+
     public Parkings() {
     }
 
@@ -76,6 +79,17 @@ public class Parkings implements Serializable {
         this.street = street;
         this.postalCode = postalCode;
         this.cost = cost;
+    }
+
+    public Parkings(int slots, Users owner, Cities city, String houseNumber, String street, String postalCode, double cost, int status) {
+        this.slots = slots;
+        this.owner = owner;
+        this.city = city;
+        this.houseNumber = houseNumber;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.cost = cost;
+        this.status = status;
     }
 
     public Parkings(Double latitude, Double longitude) {
@@ -169,5 +183,13 @@ public class Parkings implements Serializable {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

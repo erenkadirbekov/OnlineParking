@@ -15,6 +15,7 @@
 
 <h1> Welcome, Admin, ${user.surname} ${user.name}</h1>
 
+<a href="/Admin/requests">Requests</a>
 <form action="/logout" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <button type="submit">Logout</button>

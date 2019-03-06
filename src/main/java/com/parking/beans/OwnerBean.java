@@ -41,6 +41,7 @@ public class OwnerBean {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Cities> query = builder.createQuery(Cities.class);
+        Root<Cities> root = query.from(Cities.class);
         ArrayList<Cities> cities = (ArrayList<Cities>) session.createQuery(query).getResultList();
         return cities;
     }

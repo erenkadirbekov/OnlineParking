@@ -31,9 +31,9 @@ public class OwnerController {
 
     @RequestMapping(value = "/ownerPage", method = RequestMethod.GET)
     public ModelAndView ownerPage(){
-        ArrayList<Parkings> parkings = ownerBean.getOwnParkings();
-        ModelAndView mw = new ModelAndView("driverPage");
+        ModelAndView mw = new ModelAndView("ownerPage");
         Users user = dbBean.getUserData();
+        ArrayList<Parkings> parkings = ownerBean.getOwnParkings(user);
         mw.addObject("user", user);
         mw.addObject("parkings", parkings);
         return mw;
@@ -50,13 +50,18 @@ public class OwnerController {
     }
 
     @RequestMapping(value = "/createParking", method = RequestMethod.POST)
-    public String createParking(@RequestParam(name = "slots") int slots, @RequestParam(name = "cost")int cost, @RequestParam(name = "house")String house, @RequestParam(name = "street")String street, @RequestParam(name = "postal")String postal, @RequestParam(name = "city")Long cityId){
+    public String createParking(@RequestParam(name = "slots") int slots,
+                                @RequestParam(name = "cost")int cost,
+                                @RequestParam(name = "house")String house,
+                                @RequestParam(name = "street")String street,
+                                @RequestParam(name = "postal")String postal,
+                                @RequestParam(name = "city")Long cityId){
 
-
+        System.out.println("huinya");
         Parkings parkings = new Parkings(slots, dbBean.getUserData(), ownerBean.getCityById(cityId), house, street, postal, cost, 0);
         ownerBean.addNewParking(parkings);
 
 
-        return "redirect:/ownerPage";
+        return "redirect:/Owner/ownerPage";
     }
 }

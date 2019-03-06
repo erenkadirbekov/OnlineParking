@@ -21,6 +21,10 @@
     Password: <input type="password" name="password">
     Name: <input type="text" name="name">
     Surname: <input type="text" name="surname">
+    Role: <select name="role">
+            <option value="driver">Driver</option>
+            <option value="owner">Owner</option>
+          </select>
     <button type="submit">Register</button>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 

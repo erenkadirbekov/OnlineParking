@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form method="post" action="/Owner/createParking">
+<form action="/Owner/createParking" method="post">
 
     <input type="number" name="slots" placeholder="Num of Slots">
     <input type="number" name="cost" placeholder="Cost">
@@ -19,7 +19,7 @@
         </c:forEach>
     </select>
 
-
+    <button type="submit">SEND</button>
 </form>
 
 
