@@ -1,5 +1,6 @@
 package com.parking.entities;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Latitude;
 import org.hibernate.search.annotations.Longitude;
@@ -18,9 +19,11 @@ public class Parkings implements Serializable {
     @Column(name = "prk_id")
     private Long id;
 
+    @Expose
     @Latitude
     private Double latitude;
 
+    @Expose
     @Longitude
     private Double longitude;
 
