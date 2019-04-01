@@ -38,6 +38,16 @@ public class OwnerBean {
         return parkingsArrayList;
     }
 
+    public Parkings getOwnParkingById(Long id) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Parkings> query = builder.createQuery(Parkings.class);
+        Root<Parkings> root = query.from(Parkings.class);
+        Parkings parking = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
+        session.close();
+        return parking;
+    }
+
     public ArrayList<Cities> getAllCities(){
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();

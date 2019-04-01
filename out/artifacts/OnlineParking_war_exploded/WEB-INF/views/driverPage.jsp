@@ -4,6 +4,8 @@
 <head>
     <title>Driver Page</title>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=54c2e55f-61d2-415d-9910-d0db37ea584f" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script src="/resources/js/initMap.js" type="text/javascript"></script>
     <style>
         #map {
@@ -16,7 +18,8 @@
 
     <h1> Welcome, Driver, ${user.surname} ${user.name}</h1>
 
-    <div id="map" style="width: 500px; height: 400px"></div>
+    <div id="map" style="
+    width: 100%; height: 700px"></div>
 
     <form action="/logout" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

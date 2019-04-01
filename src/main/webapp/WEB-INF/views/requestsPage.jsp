@@ -22,6 +22,7 @@
                 <th>Street</th>
                 <th>Postal code</th>
                 <th>Cost</th>
+                <th>Show in map</th>
                 <th>Confirm</th>
                 <th>Reject</th>
             </tr>
@@ -36,7 +37,14 @@
                     <td>${parking.street}</td>
                     <td>${parking.postalCode}</td>
                     <td>${parking.cost}</td>
-                    <td><a href="/Admin/addParking?id=${parking.id}" class="btn btn-primary">Confirm</a></td>
+                    <td><a href="/Admin/parkingLocation/${parking.id}" class="btn btn-primary">Confirm</a></td>
+                    <td>
+                        <form action="/Admin/addParking" method="post">
+                            <input type="hidden" name="id" value="${parking.id}">
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        </form>
+                    </td>
                     <td>
                         <form action="/Admin/rejectRequest" method="post">
                             <input type="hidden" name="id" value="${parking.id}">

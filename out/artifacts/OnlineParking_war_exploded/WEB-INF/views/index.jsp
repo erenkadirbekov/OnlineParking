@@ -19,7 +19,5 @@
 
 <h1>WELCOME PAGE</h1>
 
-<form action="">
-
 </body>
 </html>

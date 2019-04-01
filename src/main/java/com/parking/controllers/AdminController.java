@@ -1,13 +1,13 @@
 package com.parking.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.parking.beans.AdminBean;
 import com.parking.entities.Parkings;
 import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class AdminController {
     @Autowired
     AdminBean adminBean;
+    Gson gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     @RequestMapping(value = "/adminPage", method = RequestMethod.GET)
     public ModelAndView adminPage() {
@@ -32,25 +33,35 @@ public class AdminController {
         return mw;
     }
 
-    @RequestMapping(value = "/addParking", method = RequestMethod.GET)
-    public ModelAndView addParkingPage(@RequestParam(name = "id") Long id) {
-        ModelAndView mw = new ModelAndView("/addParking");
+    @RequestMapping(value = "/parkingLocation/{id}", method = RequestMethod.GET)
+    public ModelAndView parkingsLocationPage(@PathVariable Long id) {
+        ModelAndView mw = new ModelAndView("parkingLocationPage");
         Parkings parking = adminBean.getParkingById(id);
         mw.addObject("parking", parking);
         return mw;
     }
 
     @RequestMapping(value = "/addParking", method = RequestMethod.POST)
-    public String addParking(@RequestParam(name = "latitude") String latitude,
-                             @RequestParam(name = "longitude") String longitude,
-                             @RequestParam(name = "id") Long id) {
+    public String addParking(@RequestParam(name = "id") Long id) {
         Parkings parking = adminBean.getParkingById(id);
-        parking.setLatitude(Double.parseDouble(latitude));
-        parking.setLongitude(Double.parseDouble(longitude));
         parking.setStatus(1);
         adminBean.updateInactiveParking(parking);
-
         return "redirect:/Admin/adminPage";
+    }
+
+    @ResponseBody
+    @CrossOrigin(allowCredentials = "true")
+    @RequestMapping(value = "/getMarker/{id}", method = RequestMethod.GET)
+    public String getMarkers(@PathVariable Long id){
+        try {
+            Parkings parking = adminBean.getParkingById(id);
+
+            return gsonBuilder.toJson(parking);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return gsonBuilder.toJson(null);
+        }
     }
 
     @RequestMapping(value = "/rejectRequest", method = RequestMethod.POST)

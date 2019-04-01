@@ -16,6 +16,7 @@ import java.util.ArrayList;
 @Table(name = "Parkings")
 public class Parkings implements Serializable {
     @Id
+    @Expose
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "prk_id")
     private Long id;
@@ -48,12 +49,14 @@ public class Parkings implements Serializable {
     @Column(name = "house_number")
     private String houseNumber;
 
+    @Expose
     @Column(name = "street")
     private String street;
 
     @Column(name = "postal_code")
     private String postalCode;
 
+    @Expose
     @Column(name = "cost")
     private double cost;
 
@@ -198,13 +201,5 @@ public class Parkings implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public ArrayList<Users> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(ArrayList<Users> employees) {
-        this.employees = employees;
     }
 }

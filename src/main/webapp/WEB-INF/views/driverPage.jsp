@@ -18,7 +18,8 @@
 
     <h1> Welcome, Driver, ${user.surname} ${user.name}</h1>
 
-    <div id="map" style="width: 500px; height: 400px"></div>
+    <div id="map" style="
+    width: 100%; height: 700px"></div>
 
     <form action="/logout" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
