@@ -44,6 +44,7 @@ public class OwnerBean {
         CriteriaQuery<Cities> query = builder.createQuery(Cities.class);
         Root<Cities> root = query.from(Cities.class);
         ArrayList<Cities> cities = (ArrayList<Cities>) session.createQuery(query).getResultList();
+        session.close();
         return cities;
     }
 
@@ -53,8 +54,34 @@ public class OwnerBean {
         CriteriaQuery<Cities> query = builder.createQuery(Cities.class);
         Root<Cities> root = query.from(Cities.class);
         Cities cities = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
+        session.close();
         return cities;
     }
+
+    public Parkings getParkingById(Long id){
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Parkings> query = builder.createQuery(Parkings.class);
+        Root<Parkings> root = query.from(Parkings.class);
+        Parkings parking = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
+        session.close();
+        return parking;
+    }
+
+    public ArrayList<Users> getEmployeesByParking(Parkings parking){
+
+        Roles role = dbBean.getRoleByName("Employee");
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Users> query = builder.createQuery(Users.class);
+        Root<Users> root = query.from(Users.class);
+        ArrayList<Users> employees = (ArrayList<Users>) session.createQuery(query.where(builder.and(builder.equal(root.get("role"), role),builder.equal(root.get("employeesParking"), parking)))).getResultList();
+        session.close();
+        return employees;
+    }
+
+
 
     public void addNewParking(Parkings parking){
         dbBean.addObject(parking);

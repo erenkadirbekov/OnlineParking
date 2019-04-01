@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: erbol
-  Date: 17.02.2019
-  Time: 20:56
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -38,6 +32,7 @@
             <td>${park.street}</td>
             <td>${park.houseNumber}</td>
             <td>${park.cost}</td>
+            <td><a href="/Owner/ownerParkingPage?id=${park.id}">Go to Page</a></td>
         </tr>
     </c:forEach>
     </tbody>

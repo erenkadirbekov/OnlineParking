@@ -8,6 +8,7 @@ import org.hibernate.search.annotations.Spatial;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Spatial
 @Indexed
@@ -40,6 +41,9 @@ public class Parkings implements Serializable {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private Cities city;
+
+    @OneToMany(mappedBy = "employeesParking")
+    private ArrayList<Users> employees;
 
     @Column(name = "house_number")
     private String houseNumber;
@@ -194,5 +198,13 @@ public class Parkings implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public ArrayList<Users> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(ArrayList<Users> employees) {
+        this.employees = employees;
     }
 }

@@ -64,4 +64,17 @@ public class OwnerController {
 
         return "redirect:/Owner/ownerPage";
     }
+
+    @RequestMapping(value = "/ownerParkingPage", method = RequestMethod.GET)
+    public ModelAndView ownerParkingPage(@RequestParam(name = "id") Long id){
+
+        ModelAndView mw = new ModelAndView("ownerParkingPage");
+
+        Parkings parking = ownerBean.getParkingById(id);
+        ArrayList<Users> employees = ownerBean.getEmployeesByParking(parking);
+
+        mw.addObject("employees", employees);
+        mw.addObject("parking", parking);
+        return mw;
+    }
 }

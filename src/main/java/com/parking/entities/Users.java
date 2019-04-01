@@ -25,6 +25,10 @@ public class Users implements Serializable {
     @OneToMany(mappedBy = "owner")
     private List<Parkings> parkings;
 
+    @ManyToOne
+    @JoinColumn(name = "prk_id")
+    private Parkings employeesParking;
+
     @Column(name = "name")
     private String name;
 
@@ -129,5 +133,13 @@ public class Users implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Parkings getEmployeesParking() {
+        return employeesParking;
+    }
+
+    public void setEmployeesParking(Parkings employeesParking) {
+        this.employeesParking = employeesParking;
     }
 }
