@@ -17,14 +17,8 @@ public class UserBean {
     }
 
     public void addUser(Users user) {
-        addObject(user);
+
     }
 
-    public void addObject(Object object) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(object);
-        transaction.commit();
-        session.close();
-    }
+
 }
