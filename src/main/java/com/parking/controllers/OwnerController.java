@@ -1,26 +1,20 @@
 package com.parking.controllers;
 
 import com.parking.beans.DBBean;
-import com.parking.beans.DriverBean;
 import com.parking.beans.OwnerBean;
 import com.parking.entities.Cities;
 import com.parking.entities.Parkings;
+import com.parking.entities.Roles;
 import com.parking.entities.Users;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.Name;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
@@ -86,16 +80,41 @@ public class OwnerController {
         return "redirect:/Owner/parkingLocation";
     }
 
-    @RequestMapping(value = "/ownerParkingPage", method = RequestMethod.GET)
-    public ModelAndView ownerParkingPage(@RequestParam(name = "id") Long id){
+    @RequestMapping(value = "/ownerParkingPage/{id}", method = RequestMethod.GET)
+    public ModelAndView ownerParkingPage(@PathVariable Long id){
 
         ModelAndView mw = new ModelAndView("ownerParkingPage");
 
-        Parkings parking = ownerBean.getParkingById(id);
+        Parkings parking = dbBean.getParkingById(id);
         ArrayList<Users> employees = ownerBean.getEmployeesByParking(parking);
 
         mw.addObject("employees", employees);
         mw.addObject("parking", parking);
         return mw;
     }
+
+    @RequestMapping(value = "/createEmployee/{parkingId}", method = RequestMethod.GET)
+    public ModelAndView createEmployeePage(@PathVariable Long parkingId) {
+        ModelAndView mw = new ModelAndView("createEmployeePage");
+        mw.addObject("parkingId", parkingId);
+        return mw;
+    }
+
+    @RequestMapping(value = "/createEmployee", method = RequestMethod.POST)
+    public String createEmployee(@RequestParam(name = "name") String name,
+                                 @RequestParam(name = "surname") String surname,
+                                 @RequestParam(name = "email") String email,
+                                 @RequestParam(name = "password") String password,
+                                 @RequestParam(name = "parkingId") Long parkingId) {
+        if(name != null && surname != null && password != null && parkingId != null) {
+            Roles role = dbBean.getRoleByName("employee");
+            Parkings parking = dbBean.getParkingById(parkingId);
+            password = DigestUtils.sha1Hex(password);
+            Users employee = new Users(role, parking, name, surname, email, password);
+            ownerBean.addEmployee(employee);
+        }
+        return "redirect:/Owner/ownerParkingPage/" + parkingId;
+    }
+
+
 }

@@ -63,6 +63,15 @@ public class Users implements Serializable {
         this.password = password;
     }
 
+    public Users(Roles role, Parkings employeesParking, String name, String surname, String email, String password) {
+        this.role = role;
+        this.employeesParking = employeesParking;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }

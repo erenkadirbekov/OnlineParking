@@ -24,10 +24,6 @@ public class DBBean {
         this.sessionFactory = sessionFactory;
     }
 
-    public void addUser(Users user) {
-        addObject(user);
-    }
-
     public Users getUserByEmail(String email) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -80,6 +76,16 @@ public class DBBean {
             user = getUserByEmail(ud.getUsername());
         }
         return user;
+    }
+
+    public Parkings getParkingById(Long id){
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Parkings> query = builder.createQuery(Parkings.class);
+        Root<Parkings> root = query.from(Parkings.class);
+        Parkings parking = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
+        session.close();
+        return parking;
     }
 
 
