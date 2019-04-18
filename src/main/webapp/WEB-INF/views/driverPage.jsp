@@ -36,52 +36,38 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">SmartParking</a>
+        <a class="navbar-brand" href="/index">SmartParking</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="/aboutPage">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="services.html">Services</a>
+                    <a class="nav-link" href="/contactPage">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
+                    <a class="nav-link" href="/forDriversPage">For Drivers</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        For Drivers
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                        <a class="dropdown-item" href="portfolio-1-col.html"></a>
-                        <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/forSpaceOwnersPage">For Space Owners</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Rent out Driveway
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog1">
-                        <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                        <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                        <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/faqPage">FAQ</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         ${user.name}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-                        <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
-                        <a class="dropdown-item" href="faq.html">FAQ</a>
-                        <a class="dropdown-item" href="404.html">404</a>
+                        <a class="dropdown-item" href="/Driver/driverPage">Dashboard</a>
+                        <a class="dropdown-item" href="sidebar.html">Find Parking</a>
+                        <a class="dropdown-item" href="sidebar.html">Bookings Made</a>
+                        <a class="dropdown-item" href="faq.html">Profile Settings</a>
+                        <a class="dropdown-item" href="faq.html">Vehicles</a>
+                        <a class="dropdown-item" href="/faqPage">FAQ</a>
                         <form action="/logout" method="post">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <button type="submit" class="dropdown-item">Logout</button>
@@ -103,9 +89,9 @@
 <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Dashboard
+    <%--<h1 class="mt-4 mb-3">Dashboard
         <small>Driver</small>
-    </h1>
+    </h1>--%>
 
 
     <!-- Content Row -->
@@ -113,16 +99,11 @@
         <!-- Sidebar Column -->
         <div class="col-lg-3 mb-4">
             <div class="list-group">
-                <a href="sidebar.html" class="list-group-item">Dashboard</a>
+                <a href="/Driver/driverPage" class="list-group-item">Dashboard</a>
+                <a href="about.html" class="list-group-item">Find Parking</a>
                 <a href="about.html" class="list-group-item">Bookings Made</a>
-                <a href="services.html" class="list-group-item">Bookings Received</a>
-                <a href="contact.html" class="list-group-item">Add Space</a>
-                <a href="portfolio-1-col.html" class="list-group-item">My Spaces</a>
                 <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
-                <a href="portfolio-3-col.html" class="list-group-item">Data Preferences</a>
-                <a href="portfolio-4-col.html" class="list-group-item">Feedback Management</a>
                 <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
-                <a href="blog-home-1.html" class="list-group-item">Transactions</a>
                 <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
                 <a href="blog-post.html" class="list-group-item">Withdrawal Methods</a>
             </div>

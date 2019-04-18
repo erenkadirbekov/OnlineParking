@@ -33,52 +33,39 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="/aboutPage">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="services.html">Services</a>
+                    <a class="nav-link" href="/contactPage">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        For Drivers
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                        <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Rent out Driveway
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog1">
-                        <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                        <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                        <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Other Pages
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog2">
-                        <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-                        <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
-                        <a class="dropdown-item" href="faq.html">FAQ</a>
-                        <a class="dropdown-item" href="404.html">404</a>
-                        <a class="dropdown-item" href="pricing.html">Pricing Table</a>
-                    </div>
+                    <a class="nav-link" href="/forDriversPage">For Drivers</a>
                 </li>
                 <li class="nav-item">
-                    <form action="/logout" method="post">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                        <button type="submit">Logout</button>
-                    </form>
+                    <a class="nav-link" href="/forSpaceOwnersPage">For Space Owners</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/faqPage">FAQ</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ${user.surname}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" href="/Admin/adminPage">Dashboard</a>
+                        <a href="/Owner/createParkingPage" class="dropdown-item">Bookings</a>
+                        <a class="dropdown-item" href="/Admin/requests">Requests</a>
+                        <a class="dropdown-item" href="404.html">Parking Spaces</a>
+                        <a class="dropdown-item" href="404.html">Vehicles</a>
+                        <a class="dropdown-item" href="404.html">Transactions</a>
+                        <a class="dropdown-item" href="404.html">Profile Settings</a>
+                        <a class="dropdown-item" href="/faqPage">FAQ</a>
+
+                        <form action="/logout" method="post">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -99,19 +86,13 @@
         <!-- Sidebar Column -->
         <div class="col-lg-3 mb-4">
             <div class="list-group">
-                <a href="sidebar.html" class="list-group-item">Dashboard</a>
-                <a href="about.html" class="list-group-item">Bookings Made</a>
-                <a href="services.html" class="list-group-item">Bookings Received</a>
+                <a href="/Admin/adminPage" class="list-group-item">Dashboard</a>
+                <a href="about.html" class="list-group-item">Bookings</a>
                 <a href="/Admin/requests" class="list-group-item">Requests</a>
-                <a href="contact.html" class="list-group-item">Add Space</a>
-                <a href="portfolio-1-col.html" class="list-group-item">My Spaces</a>
+                <a href="portfolio-1-col.html" class="list-group-item">Parking Spaces</a>
                 <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
-                <a href="portfolio-3-col.html" class="list-group-item">Data Preferences</a>
-                <a href="portfolio-4-col.html" class="list-group-item">Feedback Management</a>
                 <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
                 <a href="blog-home-1.html" class="list-group-item">Transactions</a>
-                <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
-                <a href="blog-post.html" class="list-group-item">Withdrawal Methods</a>
             </div>
         </div>
         <!-- Content Column -->

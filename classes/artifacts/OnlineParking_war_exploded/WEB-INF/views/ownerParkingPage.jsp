@@ -19,7 +19,7 @@
 <div>
 
     <label>${parking.id}</label>
-    <label>${parking.city}</label>
+    <label>${parking.city.name}</label>
     <label>${parking.street}</label>
     <label>${parking.houseNumber}</label>
     <label>${parking.cost}</label>
@@ -30,7 +30,7 @@
         <label>${employee.name} ${employee.surname}</label>
 
     </c:forEach>
-
+    <a href="/Owner/createEmployee/${parking.id}">Add employee to parking</a>
 
 </div>
 

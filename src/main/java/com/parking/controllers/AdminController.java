@@ -3,7 +3,9 @@ package com.parking.controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.parking.beans.AdminBean;
+import com.parking.beans.DBBean;
 import com.parking.entities.Parkings;
+import com.parking.entities.Users;
 import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,16 @@ import java.util.ArrayList;
 @RequestMapping("/Admin")
 public class AdminController {
     @Autowired
+    DBBean dbBean;
+    @Autowired
     AdminBean adminBean;
     Gson gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     @RequestMapping(value = "/adminPage", method = RequestMethod.GET)
     public ModelAndView adminPage() {
         ModelAndView mw = new ModelAndView("adminPage");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 
