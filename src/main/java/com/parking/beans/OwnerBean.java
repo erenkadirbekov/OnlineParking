@@ -39,13 +39,7 @@ public class OwnerBean {
     }
 
     public Parkings getOwnParkingById(Long id) {
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Parkings> query = builder.createQuery(Parkings.class);
-        Root<Parkings> root = query.from(Parkings.class);
-        Parkings parking = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
-        session.close();
-        return parking;
+        return dbBean.getParkingById(id);
     }
 
     public ArrayList<Cities> getAllCities(){
@@ -68,16 +62,6 @@ public class OwnerBean {
         return cities;
     }
 
-    public Parkings getParkingById(Long id){
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Parkings> query = builder.createQuery(Parkings.class);
-        Root<Parkings> root = query.from(Parkings.class);
-        Parkings parking = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
-        session.close();
-        return parking;
-    }
-
     public ArrayList<Users> getEmployeesByParking(Parkings parking){
 
         Roles role = dbBean.getRoleByName("Employee");
@@ -91,11 +75,11 @@ public class OwnerBean {
         return employees;
     }
 
-
-
     public void addNewParking(Parkings parking){
         dbBean.addObject(parking);
     }
 
-
+    public void addEmployee(Users employee) {
+        dbBean.addObject(employee);
+    }
 }

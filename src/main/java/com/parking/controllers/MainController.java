@@ -62,6 +62,36 @@ public class MainController {
         return mw;
     }
 
+    @RequestMapping(value = "/aboutPage", method = RequestMethod.GET)
+    public ModelAndView aboutPage(){
+        ModelAndView mw = new ModelAndView("about");
+        return mw;
+    }
+
+    @RequestMapping(value = "/faqPage", method = RequestMethod.GET)
+    public ModelAndView faqPage(){
+        ModelAndView mw = new ModelAndView("faq");
+        return mw;
+    }
+
+    @RequestMapping(value = "/contactPage", method = RequestMethod.GET)
+    public ModelAndView contactPage(){
+        ModelAndView mw = new ModelAndView("contact");
+        return mw;
+    }
+
+    @RequestMapping(value = "/forDriversPage", method = RequestMethod.GET)
+    public ModelAndView forDriversPage(){
+        ModelAndView mw = new ModelAndView("forDrivers");
+        return mw;
+    }
+
+    @RequestMapping(value = "/forSpaceOwnersPage", method = RequestMethod.GET)
+    public ModelAndView forOwnersPage(){
+        ModelAndView mw = new ModelAndView("forSpaceOwners");
+        return mw;
+    }
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@RequestParam(name = "email")String email,
                                @RequestParam(name = "password")String password,
@@ -75,13 +105,9 @@ public class MainController {
 
         Users user = new Users(roles, name, surname, email, password);
 
-        dbBean.addUser(user);
+        dbBean.addObject(user);
 
         return "redirect:/index";
     }
-
-
-
-
 
 }

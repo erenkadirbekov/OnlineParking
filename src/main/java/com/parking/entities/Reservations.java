@@ -28,25 +28,29 @@ public class Reservations implements Serializable {
     private Timestamp reserveTime;
 
     @Column(name = "start_time")
-    private Timestamp startTime;
+    private int startTime;
 
-    @Column(name = "end_time")
-    private Timestamp endTime;
+    @Column(name = "park_hours")
+    private int parkHours;
 
     @Column(name = "cost")
     private double cost;
 
+    @Column(name = "status")
+    private int status;
+
     public Reservations() {
     }
 
-    public Reservations(Users user, UserCars car, Parkings parking, Timestamp reserveTime, Timestamp startTime, Timestamp endTime, double cost) {
+    public Reservations(Users user, /*UserCars car,*/ Parkings parking, Timestamp reserveTime, int startTime, int parkHours, double cost, int status) {
         this.user = user;
-        this.car = car;
+        //this.car = car;
         this.parking = parking;
         this.reserveTime = reserveTime;
         this.startTime = startTime;
-        this.endTime = endTime;
+        this.parkHours = parkHours;
         this.cost = cost;
+        this.status = status;
     }
 
     public Long getId() {
@@ -89,20 +93,20 @@ public class Reservations implements Serializable {
         this.reserveTime = reserveTime;
     }
 
-    public Timestamp getStartTime() {
+    public int getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
-        return endTime;
+    public int getParkHours() {
+        return parkHours;
     }
 
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    public void setParkHours(int parkHours) {
+        this.parkHours = parkHours;
     }
 
     public double getCost() {
@@ -111,5 +115,13 @@ public class Reservations implements Serializable {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
