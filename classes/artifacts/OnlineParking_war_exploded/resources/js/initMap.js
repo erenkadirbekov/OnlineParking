@@ -16,7 +16,8 @@ function init() {
                 '<span class="description">' + marker.street + ' ' + marker.houseNumber + '</span>',
             balloonContentBody: '<img src="img/cinema.jpg" height="150" width="200"> <br/> ' +
                 '<a href="tel:+7-123-456-78-90">+7 (123) 456-78-90</a><br/>' +
-                '<b>Cost</b> <br/>' + marker.cost + ' tenge',
+                '<b>Cost</b> <br/>' + marker.cost + ' tenge <br/> <a href="/Driver/chosenParking?id='+marker.id+'">Open</a>'
+                ,
             // Зададим содержимое нижней части балуна.
             balloonContentFooter: 'Информация предоставлена:<br/>OOO "Рога и копыта"',
             // Зададим содержимое всплывающей подсказки.

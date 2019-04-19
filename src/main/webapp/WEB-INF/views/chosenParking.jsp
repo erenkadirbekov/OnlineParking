@@ -1,3 +1,5 @@
+<%@ page import="java.sql.Time" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -10,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Driver Page</title>
+    <title>Chosen parking</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,12 +24,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script src="/resources/js/initMap.js" type="text/javascript"></script>
-    <style>
-        #map {
-            width: 100%;
-            height: 90%;
-        }
-    </style>
 
 </head>
 
@@ -110,33 +106,30 @@
         </div>
         <!-- Content Column -->
 
-        <div id="map" style="
-    width: 100%; height: 700px" class="col-lg-9 mb-4"></div>
 
-        <div class="col-lg-9 mb-4">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <td>Parking</td>
-                    <th>StartTime</th>
-                    <th>Status</th>
-                    <th>Edit</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${reservations}" var="reserv">
-                    <tr>
-                        <td>${reserv.id}</td>
-                        <td>${reserv.parking.id}</td>
-                        <td>${reserv.startTime}</td>
-                        <td>${reserv.status}</td>
-                        <td><c:if test="${reserv.status==1}"><form action="/Driver/deactivateReservation" method="post"><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /><input type="hidden" name="id" value="${reserv.id}"><button type="submit">Deactivate</button></form></c:if> </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+        <form action="/Driver/checkTime" method="post">
+            <input type="hidden" name="id" value="${parking.id}">
+            <select name="time">
+                <%
+
+                    for(int i = 0; i < 24; i++){
+
+                %>
+
+                <option value="<%=i%>"><%=i%>:00</option>
+
+                <%
+                    }
+                %>
+            </select>
+            <input type="number" name="hours">
+            <button type="submit">Submit</button>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
+
+
+
+
     </div>
     <!-- /.row -->
 
