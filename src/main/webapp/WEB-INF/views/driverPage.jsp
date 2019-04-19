@@ -131,7 +131,7 @@
                         <td>${reserv.parking.id}</td>
                         <td>${reserv.startTime}</td>
                         <td>${reserv.status}</td>
-                        <td><c:if test="${reserv.status==1}"><<form action="/Driver/deactivateReservation" method="post"><input type="hidden" name="id" value="${reserv.id}"><button type="submit">Deactivate</button></form>></c:if> </td>
+                        <td><c:if test="${reserv.status==1}"><form action="/Driver/deactivateReservation" method="post"><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /><input type="hidden" name="id" value="${reserv.id}"><button type="submit">Deactivate</button></form></c:if> </td>
                     </tr>
                 </c:forEach>
                 </tbody>

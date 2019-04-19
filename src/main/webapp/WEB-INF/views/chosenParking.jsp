@@ -107,7 +107,7 @@
         <!-- Content Column -->
 
 
-        <form action="" method="post">
+        <form action="/Driver/checkTime" method="post">
             <input type="hidden" name="id" value="${parking.id}">
             <select name="time">
                 <%
@@ -124,6 +124,7 @@
             </select>
             <input type="number" name="hours">
             <button type="submit">Submit</button>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
 
 

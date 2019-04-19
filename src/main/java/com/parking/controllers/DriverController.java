@@ -77,20 +77,21 @@ public class DriverController {
     public String checkTime(@RequestParam(name = "time")int time,
                                @RequestParam(name = "hours")int hours, @RequestParam(name = "id") Long id){
 
+        System.out.println(time + " " + hours + " " + id);
         Parkings parking = dbBean.getParkingById(id);
         ArrayList<Reservations> reservations = driverBean.getReservationsByParkId(parking);
 
         if(time+hours>24){
             //error
-            return "redirect:/Driver/chosenParking&error=1";
+            return "redirect:/Driver/chosenParking?error=1";
         }
 
-        Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-
-        if(hour > time){
-            return "redirect:/Driver/chosenParking&error=1";
-        }
+//        Calendar rightNow = Calendar.getInstance();
+//        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+//
+//        if(hour > time){
+//            return "redirect:/Driver/chosenParking?error=1";
+//        }
 
         int counter = 0;
 
@@ -125,6 +126,8 @@ public class DriverController {
         Reservations reservations = driverBean.getReservationById(id);
 
         reservations.setStatus(statusNonActive);
+
+        dbBean.updateObject(reservations);
 
         return "redirect:/Driver/driverPage";
     }

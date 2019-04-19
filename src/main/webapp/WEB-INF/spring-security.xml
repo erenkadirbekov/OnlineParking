@@ -6,10 +6,10 @@
  http://www.springframework.org/schema/security
  http://www.springframework.org/schema/security/spring-security-4.0.xsd">
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/adminPage" access="hasRole('admin')" />
+        <intercept-url pattern="/Admin/*" access="hasAuthority('admin')" />
         <intercept-url pattern="/employeePage" access="hasRole('employee')" />
         <intercept-url pattern="/ownerPage" access="hasRole('owner')" />
-        <intercept-url pattern="/driverPage" access="hasRole('driver')" />
+        <intercept-url pattern="/Driver/*" access="hasAuthority('driver')" />
         <intercept-url pattern="/createParkingPage" access="hasRole('owner')" />
         <intercept-url pattern="/createParking" access="hasRole('owner')" />
         <intercept-url pattern="/login" access="permitAll()"/>
