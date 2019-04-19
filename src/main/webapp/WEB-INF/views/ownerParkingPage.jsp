@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="/resources/css/bootstrap.css">
 </head>
 <body>
 
@@ -31,7 +32,13 @@
 
     </c:forEach>
     <a href="/Owner/createEmployee/${parking.id}">Add employee to parking</a>
-
+    <c:if test="${parking.status == 1}">
+        <form action="/Admin/deactivateParking" method="post">
+            <input type="hidden" name="parkingId" value="${parking.id}">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <button type="submit" class="btn btn-danger">Deactivate</button>
+        </form>
+    </c:if>
 </div>
 
 

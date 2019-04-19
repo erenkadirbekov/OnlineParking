@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 
+
 public class DriverBean {
 
     private SessionFactory sessionFactory;
@@ -32,6 +33,4 @@ public class DriverBean {
 
         return parkings;
     }
-
-
 }

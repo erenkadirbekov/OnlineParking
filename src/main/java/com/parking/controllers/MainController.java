@@ -110,4 +110,10 @@ public class MainController {
         return "redirect:/index";
     }
 
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public ModelAndView accessDeniedPage(){
+        ModelAndView mw = new ModelAndView("403");
+        return mw;
+    }
+
 }

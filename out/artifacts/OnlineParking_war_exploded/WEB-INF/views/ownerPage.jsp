@@ -73,45 +73,33 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="/aboutPage">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="services.html">Services</a>
+                    <a class="nav-link" href="/contactPage">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
+                    <a class="nav-link" href="/forDriversPage">For Drivers</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        For Drivers
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                        <a class="dropdown-item" href="portfolio-1-col.html"></a>
-                        <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/forSpaceOwnersPage">For Space Owners</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Rent out Driveway
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog1">
-                        <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                        <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                        <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/faqPage">FAQ</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         ${user.name}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a href="/Owner/createParkingPage" class="dropdown-item">Create Parking</a>
-                        <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
-                        <a class="dropdown-item" href="faq.html">FAQ</a>
-                        <a class="dropdown-item" href="404.html">404</a>
+                        <a class="dropdown-item" href="/Owner/ownerPage">Dashboard</a>
+                        <a class="dropdown-item" href="/faqPage">Bookings Received</a>
+                        <a href="/Owner/createParkingPage" class="dropdown-item">Add Space</a>
+                        <a href="/Owner/createParkingPage" class="dropdown-item">My Spaces</a>
+                        <a class="dropdown-item" href="404.html">Transactions</a>
+                        <a href="/Owner/createParkingPage" class="dropdown-item">Profile Settings</a>
+                        <a class="dropdown-item" href="/faqPage">FAQ</a>
+
                         <form action="/logout" method="post">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <button type="submit" class="dropdown-item">Logout</button>
@@ -138,22 +126,14 @@
         <!-- Sidebar Column -->
         <div class="col-lg-3 mb-4">
             <div class="list-group">
-                <a href="sidebar.html" class="list-group-item">Dashboard</a>
-                <a href="about.html" class="list-group-item">Bookings Made</a>
+                <a href="/Owner/ownerPage" class="list-group-item">Dashboard</a>
                 <a href="services.html" class="list-group-item">Bookings Received</a>
-                <a href="/Admin/requests" class="list-group-item">Requests</a>
-                <a href="contact.html" class="list-group-item">Add Space</a>
+                <a href="/Owner/createParkingPage" class="list-group-item">Add Space</a>
                 <a href="portfolio-1-col.html" class="list-group-item">My Spaces</a>
                 <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
-                <a href="portfolio-3-col.html" class="list-group-item">Data Preferences</a>
-                <a href="portfolio-4-col.html" class="list-group-item">Feedback Management</a>
-                <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
                 <a href="blog-home-1.html" class="list-group-item">Transactions</a>
                 <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
-                <form action="/logout" method="post">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                    <button type="submit" class="btn-outline-danger list-group-item">Logout</button>
-                </form>
+
             </div>
         </div>
         <!-- Content Column -->
@@ -165,6 +145,8 @@
                     <th>Street</th>
                     <th>House</th>
                     <th>Cost</th>
+                    <th>Status</th>
+                    <th>Read more</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -174,7 +156,17 @@
                         <td>${park.street}</td>
                         <td>${park.houseNumber}</td>
                         <td>${park.cost}</td>
-                        <td><a href="/Owner/ownerParkingPage?id=${park.id}">Go to Page</a></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${park.status == 1}">
+                                    Active
+                                </c:when>
+                                <c:otherwise>
+                                  Non-active
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td><a href="/Owner/ownerParkingPage/${park.id}">Detailed</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

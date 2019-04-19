@@ -11,10 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class DBBean {
     private SessionFactory sessionFactory;
+    private int statusNonActive = 0;
+    private int statusActive = 1;
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -86,6 +89,11 @@ public class DBBean {
         Parkings parking = session.createQuery(query.where(builder.equal(root.get("id"), id))).getSingleResult();
         session.close();
         return parking;
+    }
+
+    public void deactivateParking(Parkings parking) {
+        parking.setStatus(statusNonActive);
+        updateObject(parking);
     }
 
 
