@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 
 @Controller
 public class MainController {
@@ -23,15 +25,20 @@ public class MainController {
     DBBean dbBean;
 
     @RequestMapping(value = {"index", "/"})
-    public ModelAndView indexPage(){
+    public ModelAndView indexPage(HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+
         return new ModelAndView("index");
     }
 
     @RequestMapping(value = "/redirectPage", method = RequestMethod.GET)
-    public String redirectPage(RedirectAttributes redirectAttributes){
+    public String redirectPage(RedirectAttributes redirectAttributes,
+                               HttpSession session){
         Users user = dbBean.getUserData();
+        if (user == null) user = (Users) session.getAttribute("user");
         if (user != null) {
             Long roleId = user.getRole().getId();
+            session.setAttribute("user", user);
             redirectAttributes.addFlashAttribute("user", user);
             if (roleId == 1L) {
                 return "redirect:/Driver/driverPage";
@@ -108,6 +115,35 @@ public class MainController {
         dbBean.addObject(user);
 
         return "redirect:/index";
+    }
+    @RequestMapping(value = "/profileSettingsPage", method = RequestMethod.GET)
+    public ModelAndView profileSettingsPage(){
+        ModelAndView mw = new ModelAndView("profileSettings");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
+        return mw;
+    }
+
+    @RequestMapping(value = "/paymentPage", method = RequestMethod.GET)
+    public ModelAndView paymentPage(){
+        ModelAndView mw = new ModelAndView("payment");
+        return mw;
+    }
+
+    @RequestMapping(value = "/resetUser", method = RequestMethod.POST)
+    public String resetUser(@RequestParam(name = "name") String name,
+                            @RequestParam(name = "surname") String surname,
+                            @RequestParam(name = "email") String email,
+                            @RequestParam(name = "password") String password,
+                            HttpSession session){
+        Users user = (Users) session.getAttribute("user");
+        user.setName(name);
+        user.setSurname(surname);
+        user.setEmail(email);
+        user.setPassword(DigestUtils.sha1Hex(password));
+        dbBean.updateObject(user);
+        session.setAttribute("user", user);
+        return "redirect:/redirectPage";
     }
 
     @RequestMapping(value = "/403", method = RequestMethod.GET)

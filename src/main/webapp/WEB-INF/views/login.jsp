@@ -52,8 +52,8 @@
 <br><br><br>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4 justify-content-center">
-            <div class="login-panel panel panel-default">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default justify-content-center">
                 <div class="panel-heading">
                     <h3 class="panel-title">Please Log In</h3>
                 </div>
