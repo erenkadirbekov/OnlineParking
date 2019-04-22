@@ -145,6 +145,8 @@
                     <th>Street</th>
                     <th>House</th>
                     <th>Cost</th>
+                    <th>Status</th>
+                    <th>Read more</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -154,7 +156,17 @@
                         <td>${park.street}</td>
                         <td>${park.houseNumber}</td>
                         <td>${park.cost}</td>
-                        <td><a href="/Owner/ownerParkingPage/${park.id}">Go to Page</a></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${park.status == 1}">
+                                    Active
+                                </c:when>
+                                <c:otherwise>
+                                  Non-active
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td><a href="/Owner/ownerParkingPage/${park.id}">Detailed</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

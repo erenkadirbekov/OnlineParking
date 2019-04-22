@@ -118,18 +118,20 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Street</th>
-                    <th>House</th>
-                    <th>Cost</th>
+                    <td>Parking</td>
+                    <th>StartTime</th>
+                    <th>Status</th>
+                    <th>Edit</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${parkings}" var="park">
+                <c:forEach items="${reservations}" var="reserv">
                     <tr>
-                        <td>${park.id}</td>
-                        <td>${park.street}</td>
-                        <td>${park.houseNumber}</td>
-                        <td>${park.cost}</td>
+                        <td>${reserv.id}</td>
+                        <td>${reserv.parking.id}</td>
+                        <td>${reserv.startTime}</td>
+                        <td>${reserv.status}</td>
+                        <td><c:if test="${reserv.status==1}"><form action="/Driver/deactivateReservation" method="post"><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /><input type="hidden" name="id" value="${reserv.id}"><button type="submit">Deactivate</button></form></c:if> </td>
                     </tr>
                 </c:forEach>
                 </tbody>

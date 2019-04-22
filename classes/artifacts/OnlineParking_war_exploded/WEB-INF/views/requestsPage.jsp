@@ -41,7 +41,7 @@
                     <td><a href="/Admin/parkingLocation/${parking.id}" class="btn btn-primary">Confirm</a></td>
                     <td>
                         <form action="/Admin/addParking" method="post">
-                            <input type="hidden" name="id" value="${parking.id}">
+                            <input type="hidden" name="id"  value="${parking.id}">
                             <button type="submit" class="btn btn-primary">Confirm</button>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         </form>

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.parking.beans.AdminBean;
 import com.parking.beans.DBBean;
+import com.parking.entities.CarBrands;
+import com.parking.entities.CarModels;
 import com.parking.entities.Parkings;
 import com.parking.entities.Users;
 import org.springframework.beans.factory.NamedBean;
@@ -22,6 +24,12 @@ public class AdminController {
     @Autowired
     AdminBean adminBean;
     Gson gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    private static final String errorName = "Name";
+    private static final String errorBrand = "Brand";
+    private static final String errorExist = "exists";
+
+    private static final String roleOwner = "owner";
 
     @RequestMapping(value = "/adminPage", method = RequestMethod.GET)
     public ModelAndView adminPage() {
@@ -74,5 +82,56 @@ public class AdminController {
     public String rejectRequest(@RequestParam(name = "id") Long id) {
         adminBean.deleteParkingById(id);
         return "redirect:/Admin/requests";
+    }
+
+    @RequestMapping(value = "/newCarModel", method = RequestMethod.GET)
+    public ModelAndView newCarModelPage() {
+        ModelAndView mw = new ModelAndView("addNewCarModelPage");
+        mw.addObject("brands", adminBean.getAllCarBrands());
+        return mw;
+    }
+
+    @RequestMapping(value = "/newCarModel/{error}", method = RequestMethod.GET)
+    public ModelAndView NewCarModelWithErrorPage(@PathVariable String error) {
+        ModelAndView mw = new ModelAndView("addNewCarModelPage");
+        mw.addObject("brands", adminBean.getAllCarBrands());
+        mw.addObject("error", error);
+        return mw;
+    }
+
+    @RequestMapping(value = "/addNewCarBrand", method = RequestMethod.POST)
+    public String addNewCarBrand(@RequestParam(name = "name") String name) {
+        if (name == null || name == "") return "redirect:/Admin/newCarModel/" + errorBrand;
+        CarBrands brand = new CarBrands(name);
+        adminBean.addNewCarBrand(brand);
+        return "redirect:/Admin/adminPage";
+    }
+
+    @RequestMapping(value = "/addNewCarModel", method = RequestMethod.POST)
+    public String addNewCarModel(@RequestParam(name = "name") String name,
+                                 @RequestParam(name = "brandId") Long brandId) {
+        if (name == null || name == "") return "redirect:/Admin/newCarModel/" + errorName;
+        if (brandId == null || brandId == 0) return "redirect:/Admin/newCarModel/" + errorBrand;
+        CarModels model = new CarModels(name, adminBean.getCarBrandById(brandId));
+        boolean isModelExist = adminBean.isCarModelExists(model);
+        if (isModelExist) return "redirect:/Admin/newCarModel/" + errorExist;
+        adminBean.addNewCarModel(model);
+        return "redirect:/Admin/adminPage";
+    }
+
+    @RequestMapping(value = "activeParkings", method = RequestMethod.GET)
+    public ModelAndView activeParkingsPage() {
+        ModelAndView mw = new ModelAndView("allActiveParkingsPage");
+        mw.addObject("parkings", adminBean.getActiveParkings());
+        return mw;
+    }
+
+    @RequestMapping(value = "deactivateParking", method = RequestMethod.POST)
+    public String deactivateParking(@RequestParam(name = "parkingId") Long parkingId) {
+        Parkings parking = adminBean.getParkingById(parkingId);
+        dbBean.deactivateParking(parking);
+        Users user = dbBean.getUserData();
+        if (user.getRole().getName().equals(roleOwner)) return "redirect:/Owner/ownerPage";
+        return "redirect:/Admin/activeParkings";
     }
 }

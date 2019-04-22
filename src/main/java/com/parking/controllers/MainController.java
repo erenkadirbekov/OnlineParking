@@ -146,4 +146,10 @@ public class MainController {
         return "redirect:/redirectPage";
     }
 
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public ModelAndView accessDeniedPage(){
+        ModelAndView mw = new ModelAndView("403");
+        return mw;
+    }
+
 }

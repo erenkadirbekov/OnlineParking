@@ -110,17 +110,18 @@
         </div>
         <!-- Content Column -->
 
-
+        <div id="map" style="
+    width: 100%; height: 700px" class="col-lg-9 mb-4"></div>
 
         <div class="col-lg-9 mb-4">
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Street</th>
-                    <th>House</th>
-                    <th>Cost</th>
-                    <th><a href="#map" class="btn-outline-info">Show in MAP</a> </th>
+                    <td>Parking</td>
+                    <th>StartTime</th>
+                    <th>Status</th>
+                    <th>Edit</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -137,8 +138,7 @@
         </div>
     </div>
     <!-- /.row -->
-    <div id="map" style="
-    width: 100%; height: 300px" class="col-lg-9 mb-4"></div>
+
 </div>
 <!-- /.container -->
 
