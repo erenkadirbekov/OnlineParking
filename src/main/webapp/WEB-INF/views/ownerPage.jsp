@@ -130,7 +130,7 @@
                 <a href="services.html" class="list-group-item">Bookings Received</a>
                 <a href="/Owner/createParkingPage" class="list-group-item">Add Space</a>
                 <a href="portfolio-1-col.html" class="list-group-item">My Spaces</a>
-                <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
+                <a href="/profileSettingsPage" class="list-group-item">Profile Setting</a>
                 <a href="blog-home-1.html" class="list-group-item">Transactions</a>
                 <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
 

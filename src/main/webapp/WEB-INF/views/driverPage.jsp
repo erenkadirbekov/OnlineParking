@@ -65,7 +65,7 @@
                         <a class="dropdown-item" href="/Driver/driverPage">Dashboard</a>
                         <a class="dropdown-item" href="sidebar.html">Find Parking</a>
                         <a class="dropdown-item" href="sidebar.html">Bookings Made</a>
-                        <a class="dropdown-item" href="faq.html">Profile Settings</a>
+                        <a class="dropdown-item" href="/profileSettingsPage">Profile Settings</a>
                         <a class="dropdown-item" href="faq.html">Vehicles</a>
                         <a class="dropdown-item" href="/faqPage">FAQ</a>
                         <form action="/logout" method="post">
@@ -102,7 +102,7 @@
                 <a href="/Driver/driverPage" class="list-group-item">Dashboard</a>
                 <a href="about.html" class="list-group-item">Find Parking</a>
                 <a href="about.html" class="list-group-item">Bookings Made</a>
-                <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
+                <a href="/profileSettingsPage" class="list-group-item">Profile Setting</a>
                 <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
                 <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
                 <a href="blog-post.html" class="list-group-item">Withdrawal Methods</a>
@@ -110,8 +110,7 @@
         </div>
         <!-- Content Column -->
 
-        <div id="map" style="
-    width: 100%; height: 700px" class="col-lg-9 mb-4"></div>
+
 
         <div class="col-lg-9 mb-4">
             <table class="table table-hover">
@@ -121,6 +120,7 @@
                     <th>Street</th>
                     <th>House</th>
                     <th>Cost</th>
+                    <th><a href="#map" class="btn-outline-info">Show in MAP</a> </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -137,7 +137,8 @@
         </div>
     </div>
     <!-- /.row -->
-
+    <div id="map" style="
+    width: 100%; height: 300px" class="col-lg-9 mb-4"></div>
 </div>
 <!-- /.container -->
 

@@ -17,4 +17,6 @@ public class EmployeeBean {
         this.sessionFactory = sessionFactory;
     }
 
+
+
 }

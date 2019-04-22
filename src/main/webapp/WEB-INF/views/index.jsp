@@ -40,10 +40,11 @@
                     <a class="nav-link" href="/forSpaceOwnersPage">For Space Owners</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-success" href="/loginPage">Login</a>
+                    <a class="nav-link text-success" href="/loginPage">Login</a>
                 </li>
+                <br>
                 <li class="nav-item">
-                    <a class="btn btn-success" href="/registrationPage">Sign Up</a>
+                    <a class="nav-link btn btn-outline-success" href="/registrationPage">Sign Up</a>
                 </li>
             </ul>
         </div>
