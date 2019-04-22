@@ -27,11 +27,6 @@ public class MainController {
         return new ModelAndView("index");
     }
 
-    @RequestMapping(value = "/403")
-    public ModelAndView noPermissionPage(){
-        return new ModelAndView("403");
-    }
-
     @RequestMapping(value = "/redirectPage", method = RequestMethod.GET)
     public String redirectPage(RedirectAttributes redirectAttributes){
         Users user = dbBean.getUserData();
