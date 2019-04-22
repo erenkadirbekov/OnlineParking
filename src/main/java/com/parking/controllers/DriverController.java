@@ -97,12 +97,13 @@ public class DriverController {
 
         for(Reservations r : reservations){
 
-            if((r.getStartTime() < time) && (r.getStartTime()+r.getParkHours() > time)){
-                counter++;
-            }else if((r.getStartTime() < time + hours) && (r.getStartTime()+r.getParkHours() > time + hours)){
-                counter++;
+            if(r.getStatus()==statusActive){
+                if((r.getStartTime() < time) && (r.getStartTime()+r.getParkHours() > time)){
+                    counter++;
+                }else if((r.getStartTime() < time + hours) && (r.getStartTime()+r.getParkHours() > time + hours)){
+                    counter++;
+                }
             }
-
         }
 
         if(counter>=parking.getSlots()){
