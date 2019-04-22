@@ -83,15 +83,15 @@ public class DriverController {
 
         if(time+hours>24){
             //error
-            return "redirect:/Driver/chosenParking?error=1";
+            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
         }
 
-//        Calendar rightNow = Calendar.getInstance();
-//        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-//
-//        if(hour > time){
-//            return "redirect:/Driver/chosenParking?error=1";
-//        }
+        Calendar rightNow = Calendar.getInstance();
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+
+        if(hour >= time){
+            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
+        }
 
         int counter = 0;
 
@@ -107,7 +107,7 @@ public class DriverController {
 
         if(counter>=parking.getSlots()){
             //error
-            return "redirect:/Driver/chosenParking&error=2";
+            return "redirect:/Driver/chosenParking?id="+id+"&error=2";
         }
 
         Reservations reservation = new Reservations(dbBean.getUserData(), parking, new Timestamp(new Date().getTime()), time, hours, parking.getCost()*hours, statusActive);
