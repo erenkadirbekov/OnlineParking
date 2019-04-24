@@ -36,7 +36,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/index">SmartParking</a>
+        <a class="navbar-brand" href="/redirectPage">SmartParking</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -125,12 +125,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${parkings}" var="park">
+                <c:forEach items="${reservations}" var="reservation">
                     <tr>
-                        <td>${park.id}</td>
-                        <td>${park.street}</td>
-                        <td>${park.houseNumber}</td>
-                        <td>${park.cost}</td>
+                        <td>${reservation.id}</td>
+                        <td>${reservation.parking.city.name}, ${reservation.parking.street}, ${reservation.parking.houseNumber}</td>
+                        <td>${reservation.status}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${reservation.status == 1}">
+                                    <form action="/Driver/deactivateReservation" method="post">
+                                        <input type="hidden" name="reservationId" value="${reservation.id}">
+                                        <button type="submit">Cancel</button>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                    </form>
+                                </c:when>
+                                <c:when test="${reservation.status == 2}">
+                                    Reservation cancelled
+                                </c:when>
+                                <c:otherwise>
+                                    Done
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

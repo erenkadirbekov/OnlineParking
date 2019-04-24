@@ -37,12 +37,10 @@ public class DriverController {
 
     @RequestMapping(value = "/driverPage", method = RequestMethod.GET)
     public ModelAndView driverPage(){
-        ArrayList<Parkings> parkings = driverBean.getActiveParkings();
         ModelAndView mw = new ModelAndView("driverPage");
         Users user = dbBean.getUserData();
         ArrayList<Reservations> reservations = driverBean.getReservationsByDriver(user);
         mw.addObject("user", user);
-        mw.addObject("parkings", parkings);
         mw.addObject("reservations", reservations);
         return mw;
     }
@@ -125,7 +123,7 @@ public class DriverController {
 
         Reservations reservations = driverBean.getReservationById(id);
 
-        reservations.setStatus(statusNonActive);
+        reservations.setStatus(statusDenied);
 
         dbBean.updateObject(reservations);
 

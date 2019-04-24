@@ -97,5 +97,13 @@ public class DBBean {
     }
 
 
-
+    public Users getUserById(Long id) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Users> query = criteriaBuilder.createQuery(Users.class);
+        Root<Users> root = query.from(Users.class);
+        Users users = session.createQuery(query.where(criteriaBuilder.equal(root.get("id"), id))).getSingleResult();
+        session.close();
+        return users;
+    }
 }
