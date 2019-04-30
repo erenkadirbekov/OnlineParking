@@ -72,13 +72,14 @@ public class DriverController {
 
 
     @RequestMapping(value = "/checkTime", method = RequestMethod.POST)
-    public String checkTime(@RequestParam(name = "time")int time,
-                               @RequestParam(name = "hours")int hours, @RequestParam(name = "id") Long id){
+    public String checkTime(@RequestParam(name = "date") String date,
+                            @RequestParam(name = "time")int time,
+                            @RequestParam(name = "hours")int hours,
+                            @RequestParam(name = "id") Long id){
 
-        System.out.println(time + " " + hours + " " + id);
         Parkings parking = dbBean.getParkingById(id);
         ArrayList<Reservations> reservations = driverBean.getReservationsByParkId(parking);
-
+        Timestamp startTime = driverBean.createTimestamp(date, time);
         if(time+hours>24){
             //error
             return "redirect:/Driver/chosenParking?id="+id+"&error=1";

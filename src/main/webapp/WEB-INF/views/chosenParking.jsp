@@ -20,6 +20,8 @@
     <!-- Custom styles for this template -->
     <link href="/resources/css/modern-business.css" rel="stylesheet">
 
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css'>
+
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=54c2e55f-61d2-415d-9910-d0db37ea584f" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -105,11 +107,32 @@
             </div>
         </div>
         <!-- Content Column -->
-
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("select.time").change(function(){
+                    var selectedDate = $("#date").val();
+                    var hour = $(this).children("option:selected").val();
+                    var date = new Date();
+                    var currentHour = date.getHours();
+                    var currentDate = formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear());
+                    if (selectedDate === currentDate && currentHour >= hour) {
+                        alert("Please, select right time");
+                        if (currentHour === 23) {
+                            currentHour = 0;
+                            currentDate = formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear())
+                        }
+                        else currentHour = currentHour+1;
+                        $(this).val(currentHour);
+                    }
+                });
+            });
+        </script>
 
         <form action="/Driver/checkTime" method="post">
             <input type="hidden" name="id" value="${parking.id}">
-            <select name="time">
+            <label for="date">Date:</label>
+            <input id="date" data-provide="datepicker">
+            <select name="time" class="time">
                 <%
 
                     for(int i = 0; i < 24; i++){
@@ -126,7 +149,6 @@
             <button type="submit">Submit</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
-
 
 
 
@@ -147,6 +169,10 @@
 <!-- Bootstrap core JavaScript -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js'></script>
+<script src="/resources/js/datePicker.js"></script>
 
 </body>
 

@@ -9,7 +9,11 @@ import org.hibernate.SessionFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class DriverBean {
@@ -69,5 +73,27 @@ public class DriverBean {
 
         return reservation;
 
+    }
+
+    public Timestamp createTimestamp(String date, int hour) {
+        Timestamp timestamp = null;
+        String time = createTime(hour);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY hh:mm:ss");
+        try {
+            Date newDate = dateFormat.parse(date + time);
+            timestamp = new Timestamp(newDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
+
+    public String createTime(int hour) {
+        String result = "";
+        if (hour >= 0 && hour <= 9) {
+            result += "0";
+        }
+        result += hour + ":00:00";
+        return result;
     }
 }
