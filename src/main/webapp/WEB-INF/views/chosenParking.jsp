@@ -131,7 +131,7 @@
         <form action="/Driver/checkTime" method="post">
             <input type="hidden" name="id" value="${parking.id}">
             <label for="date">Date:</label>
-            <input id="date" data-provide="datepicker">
+            <input type="text" id="date" data-provide="datepicker" name="date">
             <select name="time" class="time">
                 <%
 
@@ -145,7 +145,7 @@
                     }
                 %>
             </select>
-            <input type="number" name="hours">
+            <input type="number" name="duration">
             <button type="submit">Submit</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
