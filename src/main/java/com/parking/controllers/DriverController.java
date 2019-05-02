@@ -76,14 +76,11 @@ public class DriverController {
                             @RequestParam(name = "time")int time,
                             @RequestParam(name = "duration")int duration,
                             @RequestParam(name = "id") Long id){
+        if (time == -1 || duration > 23 || duration < 1) return "redirect:/Driver/chosenParking?id="+id+"&error=1";
 
         Parkings parking = dbBean.getParkingById(id);
         Timestamp startTime = driverBean.createTimestamp(date, time);
         Timestamp endTime = driverBean.createTimestamp(date, time, duration);
-        if(time+duration>24){
-            //error
-            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
-        }
 
         int numberOfOccupiedSpaces = driverBean.getNumberOfOccupiedSpaces(id, startTime, endTime);
         System.out.println(numberOfOccupiedSpaces);

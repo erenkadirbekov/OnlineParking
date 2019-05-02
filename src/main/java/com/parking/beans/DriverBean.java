@@ -97,11 +97,13 @@ public class DriverBean {
         List<Reservations> reservations = getReservationsByParkingAndDate(parkingId, startTime, endTime);
         int counter = 0;
         for (Reservations reservation : reservations) {
-            reservation.setStartTime(convertTimestampByTimeZone(reservation.getStartTime(), almatyTimeZone));
-            reservation.setEndTime(convertTimestampByTimeZone(reservation.getEndTime(), almatyTimeZone));
-            if ((startTime.getTime() >= reservation.getStartTime().getTime() && endTime.getTime() >= reservation.getEndTime().getTime())
+            //reservation.setStartTime(convertTimestampByTimeZone(reservation.getStartTime(), almatyTimeZone));
+            //reservation.setEndTime(convertTimestampByTimeZone(reservation.getEndTime(), almatyTimeZone));
+
+            if ((startTime.getTime() >= reservation.getStartTime().getTime() && endTime.getTime() >= reservation.getEndTime().getTime() && startTime.getTime() < reservation.getEndTime().getTime())
                 || (startTime.getTime() < reservation.getStartTime().getTime() &&
-                    (endTime.getTime() >= reservation.getEndTime().getTime() || endTime.getTime() < reservation.getEndTime().getTime()))) {
+                    ((endTime.getTime() >= reservation.getEndTime().getTime()
+                            || (endTime.getTime() < reservation.getEndTime().getTime()))))) {
                 counter++;
             }
         }
@@ -161,8 +163,8 @@ public class DriverBean {
 
     public Timestamp convertTimestampByTimeZone(Timestamp timestamp, String timeZone) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        TimeZone tzInAmerica = TimeZone.getTimeZone(almatyTimeZone);
-        sdf.setTimeZone(tzInAmerica);
+        TimeZone tzInAlmaty = TimeZone.getTimeZone(almatyTimeZone);
+        sdf.setTimeZone(tzInAlmaty);
 
         String newDateString = sdf.format(timestamp);
         return new Timestamp(createDate(newDateString).getTime());

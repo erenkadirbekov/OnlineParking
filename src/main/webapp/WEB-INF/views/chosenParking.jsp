@@ -1,6 +1,8 @@
 <%@ page import="java.sql.Time" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="org.springframework.util.StringUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +29,7 @@
 
     <script src="/resources/js/initMap.js" type="text/javascript"></script>
 
+    <%String error = request.getParameter("error");%>
 </head>
 
 <body>
@@ -127,25 +130,35 @@
                 });
             });
         </script>
-
+        <%if(error != null) {
+            if (error.equals("1")) {%>
+                <p style="border-color: red; border-style: solid">Check all fields and try again</p>
+                <br>
+            <%}
+            else{%> <p style="border-style:solid; border-color:red;">There are not empty spaces for this period of time</p>
+        <%}
+        }%>
+        <br>
+        <br>
         <form action="/Driver/checkTime" method="post">
             <input type="hidden" name="id" value="${parking.id}">
             <label for="date">Date:</label>
             <input type="text" id="date" data-provide="datepicker" name="date">
+            <br>
             <select name="time" class="time">
+                <option value="${-1}">choose time</option>
                 <%
 
                     for(int i = 0; i < 24; i++){
 
                 %>
-
                 <option value="<%=i%>"><%=i%>:00</option>
 
                 <%
                     }
                 %>
             </select>
-            <input type="number" name="duration">
+            <input type="number" name="duration" min="1" max="23" value="1">
             <button type="submit">Submit</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
