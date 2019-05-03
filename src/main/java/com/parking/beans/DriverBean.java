@@ -1,14 +1,14 @@
 package com.parking.beans;
 
-import com.parking.entities.Parkings;
-import com.parking.entities.Reservations;
-import com.parking.entities.Users;
+import com.parking.entities.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -19,6 +19,8 @@ import java.util.*;
 
 
 public class DriverBean {
+    @Autowired
+    DBBean dbBean;
 
     private SessionFactory sessionFactory;
     private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
@@ -91,6 +93,30 @@ public class DriverBean {
         ArrayList<Reservations> reservations = (ArrayList<Reservations>) query.getResultList();
         session.close();
         return reservations;
+    }
+
+    public ArrayList<UserCars> getDriverCars(Users driver){
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<UserCars> query = builder.createQuery(UserCars.class);
+        Root<UserCars> root = query.from(UserCars.class);
+        Predicate predicate = builder.equal(root.get("user"), driver);
+        ArrayList<UserCars> userCars = (ArrayList<UserCars>) session.createQuery(query.where(predicate)).getResultList();
+        return userCars;
+    }
+
+    public UserCars getDriverCarByCarId(Long carId) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<UserCars> query = builder.createQuery(UserCars.class);
+        Root<UserCars> root = query.from(UserCars.class);
+        Predicate predicate = builder.equal(root.get("id"), carId);
+        UserCars userCar = (UserCars) session.createQuery(query.where(predicate)).getSingleResult();
+        return userCar;
+    }
+
+    public void deleteUserCar(UserCars car) {
+        dbBean.deleteObject(car);
     }
 
     public int getNumberOfOccupiedSpaces(Long parkingId, Timestamp startTime, Timestamp endTime) {
@@ -168,5 +194,15 @@ public class DriverBean {
 
         String newDateString = sdf.format(timestamp);
         return new Timestamp(createDate(newDateString).getTime());
+    }
+
+    public ArrayList<CarModels> getCarModelsByBrand(CarBrands brand) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<CarModels> query = builder.createQuery(CarModels.class);
+        Root<CarModels> root = query.from(CarModels.class);
+        Predicate predicate = builder.equal(root.get("brand"), brand);
+        ArrayList<CarModels> models = (ArrayList<CarModels>) session.createQuery(query.where(predicate)).getResultList();
+        return models;
     }
 }

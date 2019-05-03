@@ -131,4 +131,27 @@ public class DBBean {
         session.close();
         return reservations;
     }
+
+    public CarBrands getCarBrandById(Long id) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
+        Root<CarBrands> root = query.from(CarBrands.class);
+        Predicate predicate = builder.equal(root.get("id"), id);
+        CarBrands brand = session.createQuery(query.where(predicate)).getSingleResult();
+        session.close();
+
+        return brand;
+    }
+
+    public ArrayList<CarBrands> getAllCarBrands() {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
+        Root<CarBrands> root = query.from(CarBrands.class);
+        ArrayList<CarBrands> brands = (ArrayList<CarBrands>) session.createQuery(query).getResultList();
+        session.close();
+
+        return brands;
+    }
 }

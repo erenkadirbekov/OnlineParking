@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.parking.beans.DBBean;
 import com.parking.beans.DriverBean;
-import com.parking.entities.Parkings;
-import com.parking.entities.Reservations;
-import com.parking.entities.Users;
+import com.parking.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,6 +51,22 @@ public class DriverController {
             ArrayList<Parkings> parkings = driverBean.getActiveParkings();
 
             return gsonBuilder.toJson(parkings);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return gsonBuilder.toJson(null);
+        }
+    }
+
+    @ResponseBody
+    @CrossOrigin(allowCredentials = "true")
+    @RequestMapping(value = "/getModels/{brandId}", method = RequestMethod.GET)
+    public String getModels(@PathVariable Long brandId) {
+        try {
+            CarBrands brand = dbBean.getCarBrandById(brandId);
+            ArrayList<CarModels> models = driverBean.getCarModelsByBrand(brand);
+
+            return gsonBuilder.toJson(models);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -110,6 +124,24 @@ public class DriverController {
         return "redirect:/Driver/driverPage";
     }
 
+    @RequestMapping(value = "/vehiclesPage", method = RequestMethod.GET)
+    public ModelAndView vehiclesPage(){
+        ModelAndView mw = new ModelAndView("vehiclesPage");
+        Users driver = dbBean.getUserData();
+        ArrayList<CarBrands> allBrands = dbBean.getAllCarBrands();
+        ArrayList<UserCars> driverCars = driverBean.getDriverCars(driver);
+        mw.addObject("driverCars", driverCars);
+        mw.addObject("brands", allBrands);
+        mw.addObject("user", driver);
+        return mw;
+    }
+
+    @RequestMapping(value = "/deleteUserCar", method = RequestMethod.POST)
+    public String deleteUserCar(@RequestParam(name = "carId") Long carId){
+        UserCars userCar = driverBean.getDriverCarByCarId(carId);
+        driverBean.deleteUserCar(userCar);
+        return "redirect:/Driver/vehiclesPage";
+    }
 
 
 

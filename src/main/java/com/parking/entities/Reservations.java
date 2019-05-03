@@ -17,8 +17,8 @@ public class Reservations implements Serializable {
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "user_car_id")
-    private UserCars car;
+    @JoinColumn(name = "user_car__model_id")
+    private CarModels car;
 
     @ManyToOne
     @JoinColumn(name = "prk_id")
@@ -69,11 +69,11 @@ public class Reservations implements Serializable {
         this.user = user;
     }
 
-    public UserCars getCar() {
+    public CarModels getCar() {
         return car;
     }
 
-    public void setCar(UserCars car) {
+    public void setCar(CarModels car) {
         this.car = car;
     }
 

@@ -65,35 +65,12 @@ public class AdminBean {
         dbBean.updateObject(parking);
     }
 
-    public ArrayList<CarBrands> getAllCarBrands() {
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
-        Root<CarBrands> root = query.from(CarBrands.class);
-        ArrayList<CarBrands> brands = (ArrayList<CarBrands>) session.createQuery(query).getResultList();
-        session.close();
-
-        return brands;
-    }
-
     public void addNewCarBrand(CarBrands brand) {
         dbBean.addObject(brand);
     }
 
     public void addNewCarModel(CarModels model) {
         dbBean.addObject(model);
-    }
-
-    public CarBrands getCarBrandById(Long id) {
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
-        Root<CarBrands> root = query.from(CarBrands.class);
-        Predicate predicate = builder.equal(root.get("id"), id);
-        CarBrands brand = session.createQuery(query.where(predicate)).getSingleResult();
-        session.close();
-
-        return brand;
     }
 
     public boolean isCarModelExists(CarModels model) {

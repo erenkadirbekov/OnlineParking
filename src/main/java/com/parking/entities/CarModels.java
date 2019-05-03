@@ -1,5 +1,7 @@
 package com.parking.entities;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,9 +11,11 @@ import java.util.List;
 public class CarModels implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Expose
     @Column(name = "model_id")
     private Long id;
 
+    @Expose
     @Column(name = "name")
     private String name;
 
@@ -19,6 +23,7 @@ public class CarModels implements Serializable {
     @JoinColumn(name = "brand_id")
     private CarBrands brand;
 
+    @Expose
     @OneToMany(mappedBy = "model")
     private List<UserCars> cars;
 
