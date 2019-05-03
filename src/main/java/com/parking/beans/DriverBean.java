@@ -6,16 +6,26 @@ import com.parking.entities.Users;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 
 public class DriverBean {
 
     private SessionFactory sessionFactory;
-
+    private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
+    private static final String DATE_FORMAT = "MM/dd/yyyy";
+    private static final SimpleDateFormat timeStampFormat = new SimpleDateFormat(TIMESTAMP_FORMAT);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    private static final String almatyTimeZone = "Asia/Almaty";
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
@@ -69,5 +79,94 @@ public class DriverBean {
 
         return reservation;
 
+    }
+
+    public ArrayList<Reservations> getReservationsByParkingAndDate(Long parkingId, Timestamp startTime, Timestamp endTime) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createSQLQuery("SELECT * FROM parking_slot_reservations r WHERE (DATE(r.start_time) = DATE(?) OR DATE(r.start_time) = DATE(?)) AND prk_id = ?").addEntity(Reservations.class);
+        query.setParameter(1, startTime);
+        query.setParameter(2, endTime);
+        query.setParameter(3, parkingId);
+        System.out.println(startTime + " " + endTime);
+        ArrayList<Reservations> reservations = (ArrayList<Reservations>) query.getResultList();
+        session.close();
+        return reservations;
+    }
+
+    public int getNumberOfOccupiedSpaces(Long parkingId, Timestamp startTime, Timestamp endTime) {
+        List<Reservations> reservations = getReservationsByParkingAndDate(parkingId, startTime, endTime);
+        int counter = 0;
+        for (Reservations reservation : reservations) {
+            //reservation.setStartTime(convertTimestampByTimeZone(reservation.getStartTime(), almatyTimeZone));
+            //reservation.setEndTime(convertTimestampByTimeZone(reservation.getEndTime(), almatyTimeZone));
+
+            if ((startTime.getTime() >= reservation.getStartTime().getTime() && endTime.getTime() >= reservation.getEndTime().getTime() && startTime.getTime() < reservation.getEndTime().getTime())
+                || (startTime.getTime() < reservation.getStartTime().getTime() &&
+                    ((endTime.getTime() >= reservation.getEndTime().getTime()
+                            || (endTime.getTime() < reservation.getEndTime().getTime()))))) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    public Timestamp createTimestamp(String date, int hour) {
+        Timestamp timestamp = null;
+        String time = createTime(hour);
+        try {
+            Date newDate = timeStampFormat.parse(date + " " + time);
+            timestamp = new Timestamp(newDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
+
+    public Timestamp createTimestamp(String date, int startHour, int durationHours) {
+        int endHour = startHour + durationHours;
+
+        if (endHour >= 24) {
+            int difference = endHour - 24;
+            date = dateFormat.format(getNewDatePlusOneDay(date));
+            return createTimestamp(date, difference);
+        }
+
+        return createTimestamp(date, endHour);
+    }
+
+    public String createTime(int hour) {
+        String result = "";
+        if (hour >= 0 && hour <= 9) {
+            result += "0";
+        }
+        result += hour + ":00:00";
+        return result;
+    }
+
+    public Date createDate(String date) {
+        Date newDate = null;
+        try {
+            newDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return newDate;
+    }
+
+    public Date getNewDatePlusOneDay(String date) {
+        Date date1 = createDate(date);
+        LocalDateTime localDateTime = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        localDateTime = localDateTime.plusDays(1);
+        Date currentDatePlusOneDay = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        return currentDatePlusOneDay;
+    }
+
+    public Timestamp convertTimestampByTimeZone(Timestamp timestamp, String timeZone) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        TimeZone tzInAlmaty = TimeZone.getTimeZone(almatyTimeZone);
+        sdf.setTimeZone(tzInAlmaty);
+
+        String newDateString = sdf.format(timestamp);
+        return new Timestamp(createDate(newDateString).getTime());
     }
 }

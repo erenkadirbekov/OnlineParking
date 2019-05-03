@@ -37,12 +37,10 @@ public class DriverController {
 
     @RequestMapping(value = "/driverPage", method = RequestMethod.GET)
     public ModelAndView driverPage(){
-        ArrayList<Parkings> parkings = driverBean.getActiveParkings();
         ModelAndView mw = new ModelAndView("driverPage");
         Users user = dbBean.getUserData();
         ArrayList<Reservations> reservations = driverBean.getReservationsByDriver(user);
         mw.addObject("user", user);
-        mw.addObject("parkings", parkings);
         mw.addObject("reservations", reservations);
         return mw;
     }
@@ -74,46 +72,26 @@ public class DriverController {
 
 
     @RequestMapping(value = "/checkTime", method = RequestMethod.POST)
-    public String checkTime(@RequestParam(name = "time")int time,
-                               @RequestParam(name = "hours")int hours, @RequestParam(name = "id") Long id){
+    public String checkTime(@RequestParam(name = "date") String date,
+                            @RequestParam(name = "time")int time,
+                            @RequestParam(name = "duration")int duration,
+                            @RequestParam(name = "id") Long id){
+        if (time == -1 || duration > 23 || duration < 1) return "redirect:/Driver/chosenParking?id="+id+"&error=1";
 
-        System.out.println(time + " " + hours + " " + id);
         Parkings parking = dbBean.getParkingById(id);
-        ArrayList<Reservations> reservations = driverBean.getReservationsByParkId(parking);
+        Timestamp startTime = driverBean.createTimestamp(date, time);
+        Timestamp endTime = driverBean.createTimestamp(date, time, duration);
 
-        if(time+hours>24){
-            //error
-            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
-        }
-
-        Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-
-        if(hour >= time){
-            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
-        }
-
-        int counter = 0;
-
-        for(Reservations r : reservations){
-
-            if((r.getStartTime() < time) && (r.getStartTime()+r.getParkHours() > time)){
-                counter++;
-            }else if((r.getStartTime() < time + hours) && (r.getStartTime()+r.getParkHours() > time + hours)){
-                counter++;
-            }
-
-        }
-
-        if(counter>=parking.getSlots()){
+        int numberOfOccupiedSpaces = driverBean.getNumberOfOccupiedSpaces(id, startTime, endTime);
+        System.out.println(numberOfOccupiedSpaces);
+        if(numberOfOccupiedSpaces >= parking.getSlots()){
             //error
             return "redirect:/Driver/chosenParking?id="+id+"&error=2";
         }
 
-        Reservations reservation = new Reservations(dbBean.getUserData(), parking, new Timestamp(new Date().getTime()), time, hours, parking.getCost()*hours, statusActive);
+        Reservations reservation = new Reservations(dbBean.getUserData(), parking, new Timestamp(new Date().getTime()), startTime, endTime, parking.getCost()*duration, statusActive);
 
         dbBean.addObject(reservation);
-
 
         return "redirect:/Driver/driverPage";
     }
@@ -121,11 +99,11 @@ public class DriverController {
 
 
     @RequestMapping(value = "/deactivateReservation", method = RequestMethod.POST)
-    public String deactivateReservation(@RequestParam(name = "id") Long id){
+    public String deactivateReservation(@RequestParam(name = "reservationId") Long id){
 
         Reservations reservations = driverBean.getReservationById(id);
 
-        reservations.setStatus(statusNonActive);
+        reservations.setStatus(statusDenied);
 
         dbBean.updateObject(reservations);
 

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OwnerBean {
     @Autowired
@@ -64,7 +66,7 @@ public class OwnerBean {
 
     public ArrayList<Users> getEmployeesByParking(Parkings parking){
 
-        Roles role = dbBean.getRoleByName("Employee");
+        Roles role = dbBean.getRoleByName("employee");
 
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -81,5 +83,17 @@ public class OwnerBean {
 
     public void addEmployee(Users employee) {
         dbBean.addObject(employee);
+    }
+
+    public List<Users> getAllEmployeesByOwner(Users owner){
+        ArrayList<Parkings> parkings = getOwnParkings(owner);
+        List<Users> employees = new ArrayList<>();
+        for (Parkings parking : parkings) {
+            List<Users> parkingsEmployees = parking.getEmployees();
+            for (Users employee : parkingsEmployees) {
+                employees.add(employee);
+            }
+        }
+        return employees;
     }
 }

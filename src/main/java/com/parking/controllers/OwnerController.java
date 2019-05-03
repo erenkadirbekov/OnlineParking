@@ -9,6 +9,7 @@ import com.parking.entities.Users;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -116,5 +117,45 @@ public class OwnerController {
         return "redirect:/Owner/ownerParkingPage/" + parkingId;
     }
 
+    @RequestMapping(value = "/allEmployees", method = RequestMethod.GET)
+    public ModelAndView allEmployeesPage() {
+        Users owner = dbBean.getUserData();
+        System.out.println(owner.getName());
+        ArrayList<Users> employees = (ArrayList<Users>) ownerBean.getAllEmployeesByOwner(owner);
+        ModelAndView mw = new ModelAndView("allOwnersEmployeesPage");
+        mw.addObject("employees", employees);
+        return mw;
+    }
 
+    @RequestMapping(value = "/editEmployeePage/{id}", method = RequestMethod.GET)
+    public ModelAndView editEmployeePage(@PathVariable Long id) {
+        ModelAndView mw = new ModelAndView("editEmployeePage");
+        Users owner = dbBean.getUserData();
+        Users employee = dbBean.getUserById(id);
+        ArrayList<Parkings> parkings = ownerBean.getOwnParkings(owner);
+        mw.addObject("parkings", parkings);
+        mw.addObject("employee", employee);
+        return mw;
+    }
+
+    @RequestMapping(value = "/editEmployee", method = RequestMethod.POST)
+    public String editEmployee(@RequestParam(name = "parkingId") Long parkingId,
+                               @RequestParam(name = "employeeId") Long employeeId,
+                               @RequestParam(name = "name") String name,
+                               @RequestParam(name = "surname") String surname,
+                               @RequestParam(name = "email") String email,
+                               @RequestParam(name = "password") String password) {
+        Parkings parking = ownerBean.getOwnParkingById(parkingId);
+        Users employee = dbBean.getUserById(employeeId);
+        employee.setEmployeesParking(parking);
+        employee.setName(name);
+        employee.setSurname(surname);
+        employee.setEmail(email);
+        if (!StringUtils.trimAllWhitespace(password).isEmpty()) {
+            password = DigestUtils.sha1Hex(password);
+            employee.setPassword(password);
+        }
+        dbBean.updateObject(employee);
+        return "redirect:/Owner/allEmployees";
+    }
 }

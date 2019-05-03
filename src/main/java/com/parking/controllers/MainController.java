@@ -26,10 +26,13 @@ public class MainController {
 
     @RequestMapping(value = {"index", "/"})
     public ModelAndView indexPage(HttpSession session){
-        Users user = (Users) session.getAttribute("user");
-
-        return new ModelAndView("index");
+        Users user = dbBean.getUserData();
+        ModelAndView mw = new ModelAndView("index");
+        mw.addObject("user", user);
+        return mw;
     }
+
+
 
     @RequestMapping(value = "/redirectPage", method = RequestMethod.GET)
     public String redirectPage(RedirectAttributes redirectAttributes,
