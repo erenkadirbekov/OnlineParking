@@ -68,44 +68,44 @@
 
     <div class="tab-content">
         <div id="formDriver" class="container tab-pane active">
-<div class="container-fluid bg-light py-3">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <div class="card card-body">
-                <h3 class="text-center mb-4">Sign-up</h3>
-                <%--<div class="alert alert-danger">
-                    <a class="close font-weight-light" data-dismiss="alert" href="#">×</a>Password is too short.
-                </div>--%>
-                <form action="/registration" method="post">
-                    <fieldset>
-                        <div class="form-group has-success">
-                            <input class="form-control input-lg" placeholder="E-mail Address" name="email" type="text">
-                        </div>
-                        <div class="form-group has-success">
-                            <input class="form-control input-lg" placeholder="Password" name="password" type="password">
-                        </div>
-                        <div class="form-group has-success">
-                            <input class="form-control input-lg" placeholder="Name" name="name" type="text">
-                        </div>
-                        <div class="form-group has-success">
-                            <input class="form-control input-lg" placeholder="Surname" name="surname" type="text">
-                        </div>
-                        <div class="checkbox">
-                            <label class="small">
-                                <input name="terms" type="checkbox">I have read and agree to the <a href="#">terms of service</a>
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-primary btn-block">Sign Me Up</button>
-                        <input type="hidden" name="role" value="driver">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                    </fieldset>
-                </form>
+            <div class="container-fluid bg-light py-3">
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <div class="card card-body">
+                            <h3 class="text-center mb-4">Sign-up</h3>
+                            <%--<div class="alert alert-danger">
+                                <a class="close font-weight-light" data-dismiss="alert" href="#">×</a>Password is too short.
+                            </div>--%>
+                            <form action="/registration" method="post">
+                                <fieldset>
+                                    <div class="form-group has-success">
+                                        <input class="form-control input-lg" placeholder="E-mail Address" name="email" type="text">
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <input class="form-control input-lg" placeholder="Password" name="password" type="password">
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <input class="form-control input-lg" placeholder="Name" name="name" type="text">
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <input class="form-control input-lg" placeholder="Surname" name="surname" type="text">
+                                    </div>
+                                    <div class="checkbox">
+                                        <label class="small">
+                                            <input name="terms" type="checkbox">I have read and agree to the <a href="#">terms of service</a>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-lg btn-primary btn-block">Sign Me Up</button>
+                                    <input type="hidden" name="role" value="driver">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                </fieldset>
+                            </form>
 
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
-
-    </div>
-</div>
     </div>
         <div id="formOwner" class="container tab-pane fade">
         <div class="container-fluid bg-light py-3">

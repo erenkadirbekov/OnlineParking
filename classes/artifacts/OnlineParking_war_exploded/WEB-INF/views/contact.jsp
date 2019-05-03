@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/aboutPage">About</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/contactPage">Contact</a>
                 </li>
                 <li class="nav-item">
@@ -63,16 +63,16 @@
 <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Contact
-        <small>Subheading</small>
+    <h1 class="mt-4 mb-3">Contact Us
+        <%--<small>Subheading</small>--%>
     </h1>
 
-    <ol class="breadcrumb">
+    <%--<ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="index.html">Home</a>
         </li>
         <li class="breadcrumb-item active">Contact</li>
-    </ol>
+    </ol>--%>
 
     <!-- Content Row -->
     <div class="row">

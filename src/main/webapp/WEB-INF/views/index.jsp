@@ -42,7 +42,6 @@
                 <li class="nav-item">
                     <a class="nav-link text-success" href="/loginPage">Login</a>
                 </li>
-                <br>
                 <li class="nav-item">
                     <a class="nav-link btn btn-outline-success" href="/registrationPage">Sign Up</a>
                 </li>

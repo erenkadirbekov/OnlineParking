@@ -47,6 +47,7 @@ public class Parkings implements Serializable {
     @OneToMany(mappedBy = "employeesParking")
     private List<Users> employees;
 
+    @Expose
     @Column(name = "house_number")
     private String houseNumber;
 

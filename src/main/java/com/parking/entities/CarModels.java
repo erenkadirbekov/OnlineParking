@@ -25,6 +25,12 @@ public class CarModels implements Serializable {
     public CarModels() {
     }
 
+
+    public CarModels(String name, CarBrands brand) {
+        this.name = name;
+        this.brand = brand;
+    }
+
     public CarModels(String name, CarBrands brand, List<UserCars> cars) {
         this.name = name;
         this.brand = brand;
