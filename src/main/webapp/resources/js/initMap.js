@@ -19,9 +19,9 @@ function init() {
                     '<b>Cost</b> <br/>' + marker.cost + ' tenge <br/> <a href="/Driver/chosenParking?id='+marker.id+'">Open</a>'
                 ,
                 // Зададим содержимое нижней части балуна.
-                balloonContentFooter: 'Информация предоставлена:<br/>OOO "Рога и копыта"',
+                balloonContentFooter: 'Информация предоставлена:<br/>Online Parking',
                 // Зададим содержимое всплывающей подсказки.
-                hintContent: 'Рога и копыта'
+                hintContent: 'Online Parking'
             });
             myMap.geoObjects.add(m);
         })

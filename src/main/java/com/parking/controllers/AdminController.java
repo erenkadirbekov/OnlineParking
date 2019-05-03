@@ -8,7 +8,6 @@ import com.parking.entities.CarBrands;
 import com.parking.entities.CarModels;
 import com.parking.entities.Parkings;
 import com.parking.entities.Users;
-import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -111,6 +110,8 @@ public class AdminController {
     public String addNewCarBrand(@RequestParam(name = "name") String name) {
         if (name == null || name == "") return "redirect:/Admin/newCarModel/" + errorBrand;
         CarBrands brand = new CarBrands(name);
+        boolean isBrandExist = adminBean.isCarBrandExists(brand);
+        if (isBrandExist) return "redirect:/Admin/newCarModel/" + errorExist;
         adminBean.addNewCarBrand(brand);
         return "redirect:/Admin/adminPage";
     }

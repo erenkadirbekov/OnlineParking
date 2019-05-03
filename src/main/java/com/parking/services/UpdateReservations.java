@@ -1,7 +1,6 @@
 package com.parking.services;
 
 import com.parking.beans.DBBean;
-import com.parking.beans.DriverBean;
 import com.parking.entities.Reservations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
