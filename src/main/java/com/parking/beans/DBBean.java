@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -16,8 +17,21 @@ import javax.persistence.criteria.Root;
 
 public class DBBean {
     private SessionFactory sessionFactory;
-    private int statusNonActive = 0;
-    private int statusActive = 1;
+    private static final int statusNonActive = 0;
+    private static final int statusDenied = 2;
+    private static final int statusActive = 1;
+
+    public static int getStatusNonActive() {
+        return statusNonActive;
+    }
+
+    public static int getStatusDenied() {
+        return statusDenied;
+    }
+
+    public static int getStatusActive() {
+        return statusActive;
+    }
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -105,5 +119,15 @@ public class DBBean {
         Users users = session.createQuery(query.where(criteriaBuilder.equal(root.get("id"), id))).getSingleResult();
         session.close();
         return users;
+    }
+
+    public ArrayList<Reservations> getTodaysReservations() {
+        Session session = sessionFactory.openSession();
+        Query query = session.createSQLQuery("SELECT * FROM parking_slot_reservations r WHERE DATE(r.end_date) = CURDATE() AND r.status = ?")
+                .addEntity(Reservations.class);
+        query.setParameter(1, statusActive);
+        ArrayList<Reservations> reservations = (ArrayList<Reservations>) query.getResultList();
+        session.close();
+        return reservations;
     }
 }
