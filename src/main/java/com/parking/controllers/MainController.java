@@ -38,7 +38,9 @@ public class MainController {
     public String redirectPage(RedirectAttributes redirectAttributes,
                                HttpSession session){
         Users user = dbBean.getUserData();
-        if (user == null) user = (Users) session.getAttribute("user");
+        if (user == null) {
+            user = (Users) session.getAttribute("user");
+        }
         if (user != null) {
             Long roleId = user.getRole().getId();
             session.setAttribute("user", user);

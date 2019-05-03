@@ -102,6 +102,8 @@ public class AdminController {
     public String addNewCarBrand(@RequestParam(name = "name") String name) {
         if (name == null || name == "") return "redirect:/Admin/newCarModel/" + errorBrand;
         CarBrands brand = new CarBrands(name);
+        boolean isBrandExist = adminBean.isCarBrandExists(brand);
+        if (isBrandExist) return "redirect:/Admin/newCarModel/" + errorExist;
         adminBean.addNewCarBrand(brand);
         return "redirect:/Admin/adminPage";
     }
