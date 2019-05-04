@@ -58,7 +58,7 @@ public class DriverController {
     public String getModels(@PathVariable Long brandId) {
         try {
             CarBrands brand = dbBean.getCarBrandById(brandId);
-            ArrayList<CarModels> models = driverBean.getCarModelsByBrand(brand);
+            ArrayList<CarModels> models = dbBean.getCarModelsByBrand(brand);
 
             return gsonBuilder.toJson(models);
 
@@ -134,6 +134,17 @@ public class DriverController {
     public String deleteUserCar(@RequestParam(name = "carId") Long carId){
         UserCars userCar = driverBean.getDriverCarByCarId(carId);
         driverBean.deleteUserCar(userCar);
+        return "redirect:/Driver/vehiclesPage";
+    }
+
+    @RequestMapping(value = "/addUserCar", method = RequestMethod.POST)
+    public String addUserCar(@RequestParam(name = "brandId") Long brandId,
+                             @RequestParam(name = "modelId") Long modelId) {
+        CarBrands brand = dbBean.getCarBrandById(brandId);
+        CarModels model = dbBean.getCarModelById(modelId);
+        Users user = dbBean.getUserData();
+        UserCars userCar = new UserCars(user, brand, model);
+        driverBean.addUserCar(userCar);
         return "redirect:/Driver/vehiclesPage";
     }
 

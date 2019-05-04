@@ -102,6 +102,8 @@ public class DriverBean {
         Root<UserCars> root = query.from(UserCars.class);
         Predicate predicate = builder.equal(root.get("user"), driver);
         ArrayList<UserCars> userCars = (ArrayList<UserCars>) session.createQuery(query.where(predicate)).getResultList();
+        session.close();
+
         return userCars;
     }
 
@@ -112,6 +114,8 @@ public class DriverBean {
         Root<UserCars> root = query.from(UserCars.class);
         Predicate predicate = builder.equal(root.get("id"), carId);
         UserCars userCar = (UserCars) session.createQuery(query.where(predicate)).getSingleResult();
+        session.close();
+
         return userCar;
     }
 
@@ -196,13 +200,7 @@ public class DriverBean {
         return new Timestamp(createDate(newDateString).getTime());
     }
 
-    public ArrayList<CarModels> getCarModelsByBrand(CarBrands brand) {
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<CarModels> query = builder.createQuery(CarModels.class);
-        Root<CarModels> root = query.from(CarModels.class);
-        Predicate predicate = builder.equal(root.get("brand"), brand);
-        ArrayList<CarModels> models = (ArrayList<CarModels>) session.createQuery(query.where(predicate)).getResultList();
-        return models;
+    public void addUserCar(UserCars car) {
+        dbBean.addObject(car);
     }
 }

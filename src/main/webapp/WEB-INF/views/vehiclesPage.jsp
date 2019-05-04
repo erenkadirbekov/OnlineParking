@@ -10,26 +10,36 @@
 <html>
 <head>
     <title>Vehicles</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <script type="text/javascript">
-    $('select.brand').select({
-        ajax: {
-            url: '/Driver/'
-        }
-    })
     $(document).ready(function () {
-        $("#brand").change(function () {
-            var modelSelect = $("#model");
-            $.ajax({
-                type: 'GET',
-                url: '/Driver/getModels/' + $(this).children("option:selected").val()
-            }).then(function (data) {
+        $('#brand').change(function () {
+            var $modelSelect = $('#model');
+            var $selectedOptionValue = $(this).children("option:selected").val();
+            /*fetch("http://localhost:8080/Driver/getModels/" + $(this).children("option:selected").val()).then(data => data.json()).then(data => {
                 data.forEach(model => {
-                    var option = new Option(data.name, data.id, false, false);
-                    modelSelect.appendChild(option);
+                    $modelSelect.append('<option value=' + model.id + '>' + model.name + '</option>');
                 });
-            });
+            });*/
+            if ($selectedOptionValue === "-1") {
+                $modelSelect.empty();
+            }
+            else {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/Driver/getModels/' + $(this).children("option:selected").val(),
+                    dataType: 'json',
+                    success: function (data) {
+                        $modelSelect.empty();
+                        $.each(data, function(index, model) {
+                            $modelSelect.append('<option value=' + model.id + '>' + model.name + '</option>');
+                        });
+                    }
+                });
+            }
+
         });
     });
 </script>
@@ -61,17 +71,18 @@
         </c:forEach>
         </tbody>
     </table>
-    <form action="/" method="post">
-        <select id="brand">
+    <label>Add new car</label>
+    <form action="/Driver/addUserCar" method="post">
+        Brand: <select id="brand" name="brandId">
             <option value="-1">Choose brand</option>
             <c:forEach items="${brands}" var="brand">
                 <option value="${brand.id}">${brand.name}</option>
             </c:forEach>
         </select>
-        <select id="model">
-
-        </select>
+        Model: <select id="model" name="modelId" />
+        <input type="hidden" name="userId" value="${user.id}">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <button type="submit">Add</button>
     </form>
 </body>
 </html>

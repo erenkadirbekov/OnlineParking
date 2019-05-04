@@ -155,4 +155,26 @@ public class DBBean {
 
         return brands;
     }
+
+    public ArrayList<CarModels> getCarModelsByBrand(CarBrands brand) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<CarModels> query = builder.createQuery(CarModels.class);
+        Root<CarModels> root = query.from(CarModels.class);
+        Predicate predicate = builder.equal(root.get("brand"), brand);
+        ArrayList<CarModels> models = (ArrayList<CarModels>) session.createQuery(query.where(predicate)).getResultList();
+        return models;
+    }
+
+    public CarModels getCarModelById(Long modelId) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<CarModels> query = builder.createQuery(CarModels.class);
+        Root<CarModels> root = query.from(CarModels.class);
+        Predicate predicate = builder.equal(root.get("id"), modelId);
+        CarModels model = session.createQuery(query.where(predicate)).getSingleResult();
+        session.close();
+
+        return model;
+    }
 }
