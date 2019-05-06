@@ -73,8 +73,12 @@ public class DriverController {
         Parkings parking = dbBean.getParkingById(id);
         ModelAndView mw = new ModelAndView("chosenParking");
         Users user = dbBean.getUserData();
+        ArrayList<CarBrands> allBrands = dbBean.getAllCarBrands();
+        ArrayList<RegionalIndices> regionalIndices = driverBean.getAllRegionalIndices();
+        mw.addObject("brands", allBrands);
         mw.addObject("user", user);
         mw.addObject("parking", parking);
+        mw.addObject("regionalIndices", regionalIndices);
         return mw;
     }
 
@@ -83,7 +87,10 @@ public class DriverController {
     public String checkTime(@RequestParam(name = "date") String date,
                             @RequestParam(name = "time")int time,
                             @RequestParam(name = "duration")int duration,
-                            @RequestParam(name = "id") Long id){
+                            @RequestParam(name = "id") Long id,
+                            @RequestParam(name = "modelId") Long modelId,
+                            @RequestParam(name = "regionalIndexId") Long regionalIndexId,
+                            @RequestParam(name = "number") String number){
         if (time == -1 || duration > 23 || duration < 1) return "redirect:/Driver/chosenParking?id="+id+"&error=1";
 
         Parkings parking = dbBean.getParkingById(id);
@@ -96,8 +103,9 @@ public class DriverController {
             //error
             return "redirect:/Driver/chosenParking?id="+id+"&error=2";
         }
-
-        Reservations reservation = new Reservations(dbBean.getUserData(), parking, new Timestamp(new Date().getTime()), startTime, endTime, parking.getCost()*duration, statusActive);
+        String carNumber = driverBean.createCarNumber(regionalIndexId, number);
+        CarModels model = dbBean.getCarModelById(modelId);
+        Reservations reservation = new Reservations(dbBean.getUserData(), model, carNumber, parking, new Timestamp(new Date().getTime()), startTime, endTime, parking.getCost()*duration, statusActive);
 
         dbBean.addObject(reservation);
 
@@ -124,9 +132,11 @@ public class DriverController {
         Users driver = dbBean.getUserData();
         ArrayList<CarBrands> allBrands = dbBean.getAllCarBrands();
         ArrayList<UserCars> driverCars = driverBean.getDriverCars(driver);
+        ArrayList<RegionalIndices> regionalIndices = driverBean.getAllRegionalIndices();
         mw.addObject("driverCars", driverCars);
         mw.addObject("brands", allBrands);
         mw.addObject("user", driver);
+        mw.addObject("regionalIndices", regionalIndices);
         return mw;
     }
 
@@ -139,15 +149,15 @@ public class DriverController {
 
     @RequestMapping(value = "/addUserCar", method = RequestMethod.POST)
     public String addUserCar(@RequestParam(name = "brandId") Long brandId,
-                             @RequestParam(name = "modelId") Long modelId) {
+                             @RequestParam(name = "modelId") Long modelId,
+                             @RequestParam(name = "regionalIndexId") Long regionalIndexId,
+                             @RequestParam(name = "number") String number) {
         CarBrands brand = dbBean.getCarBrandById(brandId);
         CarModels model = dbBean.getCarModelById(modelId);
         Users user = dbBean.getUserData();
-        UserCars userCar = new UserCars(user, brand, model);
+        String carNumber = driverBean.createCarNumber(regionalIndexId, number);
+        UserCars userCar = new UserCars(user, brand, model, carNumber);
         driverBean.addUserCar(userCar);
         return "redirect:/Driver/vehiclesPage";
     }
-
-
-
 }

@@ -113,7 +113,7 @@ public class DriverBean {
         CriteriaQuery<UserCars> query = builder.createQuery(UserCars.class);
         Root<UserCars> root = query.from(UserCars.class);
         Predicate predicate = builder.equal(root.get("id"), carId);
-        UserCars userCar = (UserCars) session.createQuery(query.where(predicate)).getSingleResult();
+        UserCars userCar = session.createQuery(query.where(predicate)).getSingleResult();
         session.close();
 
         return userCar;
@@ -202,5 +202,35 @@ public class DriverBean {
 
     public void addUserCar(UserCars car) {
         dbBean.addObject(car);
+    }
+
+    public ArrayList<RegionalIndices> getAllRegionalIndices() {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<RegionalIndices> query = builder.createQuery(RegionalIndices.class);
+        Root<RegionalIndices> root = query.from(RegionalIndices.class);
+        ArrayList<RegionalIndices> regionalIndices = (ArrayList<RegionalIndices>) session.createQuery(query).getResultList();
+        session.close();
+
+        return regionalIndices;
+    }
+
+    public String createCarNumber(Long regionalIndexId, String number) {
+        RegionalIndices regionalIndex = getRegionalIndexById(regionalIndexId);
+        number = number.toUpperCase();
+        String carNumber = number + " |" + regionalIndex.getDigitalIndex() + "(" + regionalIndex.getLeterIndex() + ")";
+        return carNumber;
+    }
+
+    public RegionalIndices getRegionalIndexById(Long regionalIndexId) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<RegionalIndices> query = builder.createQuery(RegionalIndices.class);
+        Root<RegionalIndices> root = query.from(RegionalIndices.class);
+        Predicate predicate = builder.equal(root.get("id"), regionalIndexId);
+        RegionalIndices regionalIndex = session.createQuery(query.where(predicate)).getSingleResult();
+        session.close();
+
+        return regionalIndex;
     }
 }

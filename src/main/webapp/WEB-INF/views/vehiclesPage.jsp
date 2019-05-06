@@ -11,38 +11,9 @@
 <head>
     <title>Vehicles</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/resources/js/vehiclesPageJs.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#brand').change(function () {
-            var $modelSelect = $('#model');
-            var $selectedOptionValue = $(this).children("option:selected").val();
-            /*fetch("http://localhost:8080/Driver/getModels/" + $(this).children("option:selected").val()).then(data => data.json()).then(data => {
-                data.forEach(model => {
-                    $modelSelect.append('<option value=' + model.id + '>' + model.name + '</option>');
-                });
-            });*/
-            if ($selectedOptionValue === "-1") {
-                $modelSelect.empty();
-            }
-            else {
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost:8080/Driver/getModels/' + $(this).children("option:selected").val(),
-                    dataType: 'json',
-                    success: function (data) {
-                        $modelSelect.empty();
-                        $.each(data, function(index, model) {
-                            $modelSelect.append('<option value=' + model.id + '>' + model.name + '</option>');
-                        });
-                    }
-                });
-            }
-
-        });
-    });
-</script>
     <table>
         <thead>
         <tr>
@@ -79,10 +50,18 @@
                 <option value="${brand.id}">${brand.name}</option>
             </c:forEach>
         </select>
-        Model: <select id="model" name="modelId" />
+        Model: <select id="model" name="modelId" disabled></select>
+        Regional Index: <select id="regionIndex" name="regionalIndexId" disabled>
+            <option value="-1">Choose regional index</option>
+            <c:forEach items="${regionalIndices}" var="index">
+                <option value="${index.id}">${index.digitalIndex}/(${index.leterIndex}) - (${index.regionName})</option>
+            </c:forEach>
+        </select>
+        <input id="number" type="text" name="number" placeholder="Enter car number" disabled />
+        <strong id="message" style="color: red"></strong>
         <input type="hidden" name="userId" value="${user.id}">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <button type="submit">Add</button>
+        <button id="btnSubmit" type="submit" disabled>Add</button>
     </form>
 </body>
 </html>

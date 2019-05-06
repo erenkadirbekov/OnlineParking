@@ -29,6 +29,8 @@
 
     <script src="/resources/js/initMap.js" type="text/javascript"></script>
 
+    <script src="/resources/js/chosenParkingJs.js"></script>
+
     <%String error = request.getParameter("error");%>
 </head>
 
@@ -110,26 +112,6 @@
             </div>
         </div>
         <!-- Content Column -->
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $("select.time").change(function(){
-                    var selectedDate = $("#date").val();
-                    var hour = $(this).children("option:selected").val();
-                    var date = new Date();
-                    var currentHour = date.getHours();
-                    var currentDate = formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear());
-                    if (selectedDate === currentDate && currentHour >= hour) {
-                        alert("Please, select right time");
-                        if (currentHour === 23) {
-                            currentHour = 0;
-                            currentDate = formatDate(date.getDate(), date.getMonth() + 1, date.getFullYear())
-                        }
-                        else currentHour = currentHour+1;
-                        $(this).val(currentHour);
-                    }
-                });
-            });
-        </script>
         <%if(error != null) {
             if (error.equals("1")) {%>
                 <p style="border-color: red; border-style: solid">Check all fields and try again</p>
@@ -145,7 +127,7 @@
             <label for="date">Date:</label>
             <input type="text" id="date" data-provide="datepicker" name="date">
             <br>
-            <select name="time" class="time">
+            Start time: <select id="time" name="time" class="time">
                 <option value="${-1}">choose time</option>
                 <%
 
@@ -158,10 +140,25 @@
                     }
                 %>
             </select>
-            <input type="number" name="duration" min="1" max="23" value="1">
-            <button type="submit">Submit</button>
+            Duration(hours): <input type="number" name="duration" min="1" max="23" value="1">
+            Brand: <select id="brand" name="brandId">
+            <option value="-1">Choose brand</option>
+            <c:forEach items="${brands}" var="brand">
+                <option value="${brand.id}">${brand.name}</option>
+            </c:forEach>
+            </select>
+            Model: <select id="model" name="modelId" disabled></select>
+            Regional Index: <select id="regionIndex" name="regionalIndexId" disabled>
+            <option value="-1">Choose regional index</option>
+            <c:forEach items="${regionalIndices}" var="index">
+                <option value="${index.id}">${index.digitalIndex}/(${index.leterIndex}) - (${index.regionName})</option>
+            </c:forEach>
+            </select>
+            <input id="number" type="text" name="number" placeholder="Enter car number" disabled />
+            <strong id="message" style="color: red"></strong>
+            <button id="btnSubmit" type="submit" disabled>Submit</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        </form>
+            </form>
 
 
 
