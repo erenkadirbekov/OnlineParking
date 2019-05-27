@@ -26,19 +26,19 @@ public class MainController {
 
     @RequestMapping(value = {"index", "/"})
     public ModelAndView indexPage(HttpSession session){
-        Users user = (Users) session.getAttribute("user");
-
-        return new ModelAndView("index");
+        Users user = dbBean.getUserData();
+        ModelAndView mw = new ModelAndView("index");
+        mw.addObject("user", user);
+        return mw;
     }
 
+
+
     @RequestMapping(value = "/redirectPage", method = RequestMethod.GET)
-    public String redirectPage(RedirectAttributes redirectAttributes,
-                               HttpSession session){
+    public String redirectPage(RedirectAttributes redirectAttributes){
         Users user = dbBean.getUserData();
-        if (user == null) user = (Users) session.getAttribute("user");
         if (user != null) {
             Long roleId = user.getRole().getId();
-            session.setAttribute("user", user);
             redirectAttributes.addFlashAttribute("user", user);
             if (roleId == 1L) {
                 return "redirect:/Driver/driverPage";
@@ -72,30 +72,40 @@ public class MainController {
     @RequestMapping(value = "/aboutPage", method = RequestMethod.GET)
     public ModelAndView aboutPage(){
         ModelAndView mw = new ModelAndView("about");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 
     @RequestMapping(value = "/faqPage", method = RequestMethod.GET)
     public ModelAndView faqPage(){
         ModelAndView mw = new ModelAndView("faq");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 
     @RequestMapping(value = "/contactPage", method = RequestMethod.GET)
     public ModelAndView contactPage(){
         ModelAndView mw = new ModelAndView("contact");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 
     @RequestMapping(value = "/forDriversPage", method = RequestMethod.GET)
     public ModelAndView forDriversPage(){
         ModelAndView mw = new ModelAndView("forDrivers");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 
     @RequestMapping(value = "/forSpaceOwnersPage", method = RequestMethod.GET)
     public ModelAndView forOwnersPage(){
         ModelAndView mw = new ModelAndView("forSpaceOwners");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 
@@ -127,6 +137,8 @@ public class MainController {
     @RequestMapping(value = "/paymentPage", method = RequestMethod.GET)
     public ModelAndView paymentPage(){
         ModelAndView mw = new ModelAndView("payment");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         return mw;
     }
 

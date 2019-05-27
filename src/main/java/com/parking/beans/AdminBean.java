@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminBean {
     @Autowired
@@ -65,35 +66,12 @@ public class AdminBean {
         dbBean.updateObject(parking);
     }
 
-    public ArrayList<CarBrands> getAllCarBrands() {
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
-        Root<CarBrands> root = query.from(CarBrands.class);
-        ArrayList<CarBrands> brands = (ArrayList<CarBrands>) session.createQuery(query).getResultList();
-        session.close();
-
-        return brands;
-    }
-
     public void addNewCarBrand(CarBrands brand) {
         dbBean.addObject(brand);
     }
 
     public void addNewCarModel(CarModels model) {
         dbBean.addObject(model);
-    }
-
-    public CarBrands getCarBrandById(Long id) {
-        Session session = sessionFactory.openSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
-        Root<CarBrands> root = query.from(CarBrands.class);
-        Predicate predicate = builder.equal(root.get("id"), id);
-        CarBrands brand = session.createQuery(query.where(predicate)).getSingleResult();
-        session.close();
-
-        return brand;
     }
 
     public boolean isCarModelExists(CarModels model) {
@@ -103,10 +81,23 @@ public class AdminBean {
         Root<CarModels> root = query.from(CarModels.class);
         Predicate predicate1 = builder.equal(root.get("name"), model.getName());
         Predicate predicate2 = builder.equal(root.get("brand"), model.getBrand());
-        CarModels carModel = session.createQuery(query.where(builder.and(predicate1, predicate2))).getSingleResult();
+        List<CarModels> carModel = session.createQuery(query.where(builder.and(predicate1, predicate2))).getResultList();
         session.close();
 
-        if (carModel != null) return true;
+        if (!carModel.isEmpty()) return true;
+        return false;
+    }
+
+    public boolean isCarBrandExists(CarBrands brand) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<CarBrands> query = builder.createQuery(CarBrands.class);
+        Root<CarBrands> root = query.from(CarBrands.class);
+        Predicate predicate = builder.equal(root.get("name"), brand.getName());
+        List<CarBrands> brands = session.createQuery(query.where(predicate)).getResultList();
+        session.close();
+
+        if (!brands.isEmpty()) return true;
         return false;
     }
 

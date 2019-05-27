@@ -1,6 +1,8 @@
 <%@ page import="java.sql.Time" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="org.springframework.util.StringUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,11 +22,16 @@
     <!-- Custom styles for this template -->
     <link href="/resources/css/modern-business.css" rel="stylesheet">
 
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css'>
+
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=54c2e55f-61d2-415d-9910-d0db37ea584f" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script src="/resources/js/initMap.js" type="text/javascript"></script>
 
+    <script src="/resources/js/chosenParkingJs.js"></script>
+
+    <%String error = request.getParameter("error");%>
 </head>
 
 <body>
@@ -105,28 +112,53 @@
             </div>
         </div>
         <!-- Content Column -->
-
-
+        <%if(error != null) {
+            if (error.equals("1")) {%>
+                <p style="border-color: red; border-style: solid">Check all fields and try again</p>
+                <br>
+            <%}
+            else{%> <p style="border-style:solid; border-color:red;">There are not empty spaces for this period of time</p>
+        <%}
+        }%>
+        <br>
+        <br>
         <form action="/Driver/checkTime" method="post">
             <input type="hidden" name="id" value="${parking.id}">
-            <select name="time">
+            <label for="date">Date:</label>
+            <input type="text" id="date" data-provide="datepicker" name="date">
+            <br>
+            Start time: <select id="time" name="time" class="time">
+                <option value="${-1}">choose time</option>
                 <%
 
                     for(int i = 0; i < 24; i++){
 
                 %>
-
                 <option value="<%=i%>"><%=i%>:00</option>
 
                 <%
                     }
                 %>
             </select>
-            <input type="number" name="hours">
-            <button type="submit">Submit</button>
+            Duration(hours): <input type="number" name="duration" min="1" max="23" value="1">
+            Brand: <select id="brand" name="brandId">
+            <option value="-1">Choose brand</option>
+            <c:forEach items="${brands}" var="brand">
+                <option value="${brand.id}">${brand.name}</option>
+            </c:forEach>
+            </select>
+            Model: <select id="model" name="modelId" disabled></select>
+            Regional Index: <select id="regionIndex" name="regionalIndexId" disabled>
+            <option value="-1">Choose regional index</option>
+            <c:forEach items="${regionalIndices}" var="index">
+                <option value="${index.id}">${index.digitalIndex}/(${index.leterIndex}) - (${index.regionName})</option>
+            </c:forEach>
+            </select>
+            <input id="number" type="text" name="number" placeholder="Enter car number" disabled />
+            <strong id="message" style="color: red"></strong>
+            <button id="btnSubmit" type="submit" disabled>Submit</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        </form>
-
+            </form>
 
 
 
@@ -147,6 +179,10 @@
 <!-- Bootstrap core JavaScript -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js'></script>
+<script src="/resources/js/datePicker.js"></script>
 
 </body>
 

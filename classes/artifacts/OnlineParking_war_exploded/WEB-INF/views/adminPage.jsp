@@ -49,7 +49,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        ${user.surname}
+                        ${user.name}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
                         <a class="dropdown-item" href="/Admin/adminPage">Dashboard</a>
@@ -58,7 +58,7 @@
                         <a class="dropdown-item" href="404.html">Parking Spaces</a>
                         <a class="dropdown-item" href="404.html">Vehicles</a>
                         <a class="dropdown-item" href="404.html">Transactions</a>
-                        <a class="dropdown-item" href="404.html">Profile Settings</a>
+                        <a class="dropdown-item" href="/profileSettingsPage">Profile Settings</a>
                         <a class="dropdown-item" href="/faqPage">FAQ</a>
 
                         <form action="/logout" method="post">
@@ -90,7 +90,7 @@
                 <a href="about.html" class="list-group-item">Bookings</a>
                 <a href="/Admin/requests" class="list-group-item">Requests</a>
                 <a href="portfolio-1-col.html" class="list-group-item">Parking Spaces</a>
-                <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
+                <a href="/profileSettingsPage" class="list-group-item">Profile Setting</a>
                 <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
                 <a href="blog-home-1.html" class="list-group-item">Transactions</a>
             </div>

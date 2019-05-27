@@ -8,7 +8,6 @@ import com.parking.entities.CarBrands;
 import com.parking.entities.CarModels;
 import com.parking.entities.Parkings;
 import com.parking.entities.Users;
-import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +42,8 @@ public class AdminController {
     public ModelAndView requestsPage() {
         ModelAndView mw = new ModelAndView("requestsPage");
         ArrayList<Parkings> parkings = adminBean.getAllNotAddedParkings();
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         mw.addObject("parkings", parkings);
         return mw;
     }
@@ -50,6 +51,8 @@ public class AdminController {
     @RequestMapping(value = "/parkingLocation/{id}", method = RequestMethod.GET)
     public ModelAndView parkingsLocationPage(@PathVariable Long id) {
         ModelAndView mw = new ModelAndView("parkingLocationPage");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         Parkings parking = adminBean.getParkingById(id);
         mw.addObject("parking", parking);
         return mw;
@@ -87,14 +90,18 @@ public class AdminController {
     @RequestMapping(value = "/newCarModel", method = RequestMethod.GET)
     public ModelAndView newCarModelPage() {
         ModelAndView mw = new ModelAndView("addNewCarModelPage");
-        mw.addObject("brands", adminBean.getAllCarBrands());
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
+        mw.addObject("brands", dbBean.getAllCarBrands());
         return mw;
     }
 
     @RequestMapping(value = "/newCarModel/{error}", method = RequestMethod.GET)
     public ModelAndView NewCarModelWithErrorPage(@PathVariable String error) {
         ModelAndView mw = new ModelAndView("addNewCarModelPage");
-        mw.addObject("brands", adminBean.getAllCarBrands());
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
+        mw.addObject("brands", dbBean.getAllCarBrands());
         mw.addObject("error", error);
         return mw;
     }
@@ -103,6 +110,8 @@ public class AdminController {
     public String addNewCarBrand(@RequestParam(name = "name") String name) {
         if (name == null || name == "") return "redirect:/Admin/newCarModel/" + errorBrand;
         CarBrands brand = new CarBrands(name);
+        boolean isBrandExist = adminBean.isCarBrandExists(brand);
+        if (isBrandExist) return "redirect:/Admin/newCarModel/" + errorExist;
         adminBean.addNewCarBrand(brand);
         return "redirect:/Admin/adminPage";
     }
@@ -112,7 +121,7 @@ public class AdminController {
                                  @RequestParam(name = "brandId") Long brandId) {
         if (name == null || name == "") return "redirect:/Admin/newCarModel/" + errorName;
         if (brandId == null || brandId == 0) return "redirect:/Admin/newCarModel/" + errorBrand;
-        CarModels model = new CarModels(name, adminBean.getCarBrandById(brandId));
+        CarModels model = new CarModels(name, dbBean.getCarBrandById(brandId));
         boolean isModelExist = adminBean.isCarModelExists(model);
         if (isModelExist) return "redirect:/Admin/newCarModel/" + errorExist;
         adminBean.addNewCarModel(model);
@@ -122,6 +131,8 @@ public class AdminController {
     @RequestMapping(value = "activeParkings", method = RequestMethod.GET)
     public ModelAndView activeParkingsPage() {
         ModelAndView mw = new ModelAndView("allActiveParkingsPage");
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         mw.addObject("parkings", adminBean.getActiveParkings());
         return mw;
     }

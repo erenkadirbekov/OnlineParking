@@ -21,6 +21,10 @@ public class CarBrands implements Serializable {
     @OneToMany(mappedBy = "brand")
     private List<UserCars> cars;
 
+    public CarBrands(String name) {
+        this.name = name;
+    }
+
     public CarBrands(String name, List<CarModels> models, List<UserCars> cars) {
         this.name = name;
         this.models = models;

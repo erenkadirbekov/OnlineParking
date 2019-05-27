@@ -17,8 +17,8 @@ public class Reservations implements Serializable {
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "user_car_id")
-    private UserCars car;
+    @JoinColumn(name = "user_car__model_id")
+    private CarModels car;
 
     @ManyToOne
     @JoinColumn(name = "prk_id")
@@ -28,10 +28,10 @@ public class Reservations implements Serializable {
     private Timestamp reserveTime;
 
     @Column(name = "start_time")
-    private int startTime;
+    private Timestamp startTime;
 
-    @Column(name = "park_hours")
-    private int parkHours;
+    @Column(name = "end_time")
+    private Timestamp endTime;
 
     @Column(name = "cost")
     private double cost;
@@ -42,13 +42,13 @@ public class Reservations implements Serializable {
     public Reservations() {
     }
 
-    public Reservations(Users user, /*UserCars car,*/ Parkings parking, Timestamp reserveTime, int startTime, int parkHours, double cost, int status) {
+    public Reservations(Users user, /*UserCars car,*/ Parkings parking, Timestamp reserveTime, Timestamp startTime, Timestamp endTime, double cost, int status) {
         this.user = user;
         //this.car = car;
         this.parking = parking;
         this.reserveTime = reserveTime;
         this.startTime = startTime;
-        this.parkHours = parkHours;
+        this.endTime = endTime;
         this.cost = cost;
         this.status = status;
     }
@@ -69,11 +69,11 @@ public class Reservations implements Serializable {
         this.user = user;
     }
 
-    public UserCars getCar() {
+    public CarModels getCar() {
         return car;
     }
 
-    public void setCar(UserCars car) {
+    public void setCar(CarModels car) {
         this.car = car;
     }
 
@@ -93,20 +93,20 @@ public class Reservations implements Serializable {
         this.reserveTime = reserveTime;
     }
 
-    public int getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public int getParkHours() {
-        return parkHours;
+    public Timestamp getEndTime() {
+        return endTime;
     }
 
-    public void setParkHours(int parkHours) {
-        this.parkHours = parkHours;
+    public void setParkHours(Timestamp endTime) {
+        this.endTime = endTime;
     }
 
     public double getCost() {

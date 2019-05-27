@@ -65,7 +65,7 @@
                         <a class="dropdown-item" href="/Driver/driverPage">Dashboard</a>
                         <a class="dropdown-item" href="sidebar.html">Find Parking</a>
                         <a class="dropdown-item" href="sidebar.html">Bookings Made</a>
-                        <a class="dropdown-item" href="faq.html">Profile Settings</a>
+                        <a class="dropdown-item" href="/profileSettingsPage">Profile Settings</a>
                         <a class="dropdown-item" href="faq.html">Vehicles</a>
                         <a class="dropdown-item" href="/faqPage">FAQ</a>
                         <form action="/logout" method="post">
@@ -102,7 +102,7 @@
                 <a href="/Driver/driverPage" class="list-group-item">Dashboard</a>
                 <a href="about.html" class="list-group-item">Find Parking</a>
                 <a href="about.html" class="list-group-item">Bookings Made</a>
-                <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
+                <a href="/profileSettingsPage" class="list-group-item">Profile Setting</a>
                 <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
                 <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
                 <a href="blog-post.html" class="list-group-item">Withdrawal Methods</a>
@@ -117,21 +117,41 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <td>Parking</td>
-                    <th>StartTime</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Status</th>
                     <th>Edit</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${reservations}" var="reserv">
+                <c:forEach items="${reservations}" var="reservation">
                     <tr>
-                        <td>${reserv.id}</td>
-                        <td>${reserv.parking.id}</td>
-                        <td>${reserv.startTime}</td>
-                        <td>${reserv.status}</td>
-                        <td><c:if test="${reserv.status==1}"><form action="/Driver/deactivateReservation" method="post"><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /><input type="hidden" name="id" value="${reserv.id}"><button type="submit">Deactivate</button></form></c:if> </td>
+                        <td>${reservation.parking.city.name}, ${reservation.parking.street}, ${reservation.parking.houseNumber}</td>
+                        <td>${reservation.startTime}</td>
+                        <td>${reservation.endTime}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${reservation.status == 1}">
+                                    Reservation active
+                                </c:when>
+                                <c:when test="${reservation.status == 2}">
+                                    Reservation cancelled
+                                </c:when>
+                                <c:otherwise>
+                                    Done
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <c:if test="${reservation.status == 1}">
+                            <td>
+                                <form action="/Driver/deactivateReservation" method="post">
+                                    <input type="hidden" name="reservationId" value="${reservation.id}">
+                                    <button type="submit">Cancel</button>
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                </form>
+                            </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

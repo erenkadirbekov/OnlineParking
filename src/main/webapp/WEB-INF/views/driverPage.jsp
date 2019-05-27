@@ -117,20 +117,41 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <td>Parking</td>
-                    <th>StartTime</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Status</th>
                     <th>Edit</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${parkings}" var="park">
+                <c:forEach items="${reservations}" var="reservation">
                     <tr>
-                        <td>${park.id}</td>
-                        <td>${park.street}</td>
-                        <td>${park.houseNumber}</td>
-                        <td>${park.cost}</td>
+                        <td>${reservation.parking.city.name}, ${reservation.parking.street}, ${reservation.parking.houseNumber}</td>
+                        <td>${reservation.startTime}</td>
+                        <td>${reservation.endTime}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${reservation.status == 1}">
+                                    Reservation active
+                                </c:when>
+                                <c:when test="${reservation.status == 2}">
+                                    Reservation cancelled
+                                </c:when>
+                                <c:otherwise>
+                                    Done
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <c:if test="${reservation.status == 1}">
+                            <td>
+                                <form action="/Driver/deactivateReservation" method="post">
+                                    <input type="hidden" name="reservationId" value="${reservation.id}">
+                                    <button type="submit">Cancel</button>
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                </form>
+                            </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -4,22 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.parking.beans.DBBean;
 import com.parking.beans.DriverBean;
-import com.parking.entities.Parkings;
-import com.parking.entities.Reservations;
-import com.parking.entities.Users;
+import com.parking.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 @Controller
@@ -37,12 +29,10 @@ public class DriverController {
 
     @RequestMapping(value = "/driverPage", method = RequestMethod.GET)
     public ModelAndView driverPage(){
-        ArrayList<Parkings> parkings = driverBean.getActiveParkings();
         ModelAndView mw = new ModelAndView("driverPage");
         Users user = dbBean.getUserData();
         ArrayList<Reservations> reservations = driverBean.getReservationsByDriver(user);
         mw.addObject("user", user);
-        mw.addObject("parkings", parkings);
         mw.addObject("reservations", reservations);
         return mw;
     }
@@ -62,59 +52,62 @@ public class DriverController {
         }
     }
 
+    @ResponseBody
+    @CrossOrigin(allowCredentials = "true")
+    @RequestMapping(value = "/getModels/{brandId}", method = RequestMethod.GET)
+    public String getModels(@PathVariable Long brandId) {
+        try {
+            CarBrands brand = dbBean.getCarBrandById(brandId);
+            ArrayList<CarModels> models = dbBean.getCarModelsByBrand(brand);
+
+            return gsonBuilder.toJson(models);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return gsonBuilder.toJson(null);
+        }
+    }
+
     @RequestMapping(value = "/chosenParking", method = RequestMethod.GET)
     public ModelAndView chosenParking(@RequestParam(name = "id") Long id){
         Parkings parking = dbBean.getParkingById(id);
         ModelAndView mw = new ModelAndView("chosenParking");
         Users user = dbBean.getUserData();
+        ArrayList<CarBrands> allBrands = dbBean.getAllCarBrands();
+        ArrayList<RegionalIndices> regionalIndices = driverBean.getAllRegionalIndices();
+        mw.addObject("brands", allBrands);
         mw.addObject("user", user);
         mw.addObject("parking", parking);
+        mw.addObject("regionalIndices", regionalIndices);
         return mw;
     }
 
 
     @RequestMapping(value = "/checkTime", method = RequestMethod.POST)
-    public String checkTime(@RequestParam(name = "time")int time,
-                               @RequestParam(name = "hours")int hours, @RequestParam(name = "id") Long id){
+    public String checkTime(@RequestParam(name = "date") String date,
+                            @RequestParam(name = "time")int time,
+                            @RequestParam(name = "duration")int duration,
+                            @RequestParam(name = "id") Long id,
+                            @RequestParam(name = "modelId") Long modelId,
+                            @RequestParam(name = "regionalIndexId") Long regionalIndexId,
+                            @RequestParam(name = "number") String number){
+        if (time == -1 || duration > 23 || duration < 1) return "redirect:/Driver/chosenParking?id="+id+"&error=1";
 
-        System.out.println(time + " " + hours + " " + id);
         Parkings parking = dbBean.getParkingById(id);
-        ArrayList<Reservations> reservations = driverBean.getReservationsByParkId(parking);
+        Timestamp startTime = driverBean.createTimestamp(date, time);
+        Timestamp endTime = driverBean.createTimestamp(date, time, duration);
 
-        if(time+hours>24){
-            //error
-            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
-        }
-
-        Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-
-        if(hour >= time){
-            return "redirect:/Driver/chosenParking?id="+id+"&error=1";
-        }
-
-        int counter = 0;
-
-        for(Reservations r : reservations){
-
-            if(r.getStatus()==statusActive){
-                if((r.getStartTime() < time) && (r.getStartTime()+r.getParkHours() > time)){
-                    counter++;
-                }else if((r.getStartTime() < time + hours) && (r.getStartTime()+r.getParkHours() > time + hours)){
-                    counter++;
-                }
-            }
-        }
-
-        if(counter>=parking.getSlots()){
+        int numberOfOccupiedSpaces = driverBean.getNumberOfOccupiedSpaces(id, startTime, endTime);
+        System.out.println(numberOfOccupiedSpaces);
+        if(numberOfOccupiedSpaces >= parking.getSlots()){
             //error
             return "redirect:/Driver/chosenParking?id="+id+"&error=2";
         }
-
-        Reservations reservation = new Reservations(dbBean.getUserData(), parking, new Timestamp(new Date().getTime()), time, hours, parking.getCost()*hours, statusActive);
+        String carNumber = driverBean.createCarNumber(regionalIndexId, number);
+        CarModels model = dbBean.getCarModelById(modelId);
+        Reservations reservation = new Reservations(dbBean.getUserData(), model, carNumber, parking, new Timestamp(new Date().getTime()), startTime, endTime, parking.getCost()*duration, statusActive);
 
         dbBean.addObject(reservation);
-
 
         return "redirect:/Driver/driverPage";
     }
@@ -122,18 +115,49 @@ public class DriverController {
 
 
     @RequestMapping(value = "/deactivateReservation", method = RequestMethod.POST)
-    public String deactivateReservation(@RequestParam(name = "id") Long id){
+    public String deactivateReservation(@RequestParam(name = "reservationId") Long id){
 
         Reservations reservations = driverBean.getReservationById(id);
 
-        reservations.setStatus(statusNonActive);
+        reservations.setStatus(statusDenied);
 
         dbBean.updateObject(reservations);
 
         return "redirect:/Driver/driverPage";
     }
 
+    @RequestMapping(value = "/vehiclesPage", method = RequestMethod.GET)
+    public ModelAndView vehiclesPage(){
+        ModelAndView mw = new ModelAndView("vehiclesPage");
+        Users driver = dbBean.getUserData();
+        ArrayList<CarBrands> allBrands = dbBean.getAllCarBrands();
+        ArrayList<UserCars> driverCars = driverBean.getDriverCars(driver);
+        ArrayList<RegionalIndices> regionalIndices = driverBean.getAllRegionalIndices();
+        mw.addObject("driverCars", driverCars);
+        mw.addObject("brands", allBrands);
+        mw.addObject("user", driver);
+        mw.addObject("regionalIndices", regionalIndices);
+        return mw;
+    }
 
+    @RequestMapping(value = "/deleteUserCar", method = RequestMethod.POST)
+    public String deleteUserCar(@RequestParam(name = "carId") Long carId){
+        UserCars userCar = driverBean.getDriverCarByCarId(carId);
+        driverBean.deleteUserCar(userCar);
+        return "redirect:/Driver/vehiclesPage";
+    }
 
-
+    @RequestMapping(value = "/addUserCar", method = RequestMethod.POST)
+    public String addUserCar(@RequestParam(name = "brandId") Long brandId,
+                             @RequestParam(name = "modelId") Long modelId,
+                             @RequestParam(name = "regionalIndexId") Long regionalIndexId,
+                             @RequestParam(name = "number") String number) {
+        CarBrands brand = dbBean.getCarBrandById(brandId);
+        CarModels model = dbBean.getCarModelById(modelId);
+        Users user = dbBean.getUserData();
+        String carNumber = driverBean.createCarNumber(regionalIndexId, number);
+        UserCars userCar = new UserCars(user, brand, model, carNumber);
+        driverBean.addUserCar(userCar);
+        return "redirect:/Driver/vehiclesPage";
+    }
 }
