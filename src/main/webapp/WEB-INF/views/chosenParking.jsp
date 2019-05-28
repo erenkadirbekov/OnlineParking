@@ -151,7 +151,7 @@
             Regional Index: <select id="regionIndex" name="regionalIndexId" disabled>
             <option value="-1">Choose regional index</option>
             <c:forEach items="${regionalIndices}" var="index">
-                <option value="${index.id}">${index.digitalIndex}/(${index.leterIndex}) - (${index.regionName})</option>
+                <option value="${index.id}">${index.digitalIndex}/(${index.letterIndex}) - (${index.name})</option>
             </c:forEach>
             </select>
             <input id="number" type="text" name="number" placeholder="Enter car number" disabled />

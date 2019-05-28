@@ -24,17 +24,20 @@ public class UserCars implements Serializable {
     @JoinColumn(name = "model_id")
     private CarModels model;
 
+    @Column(name = "car_number")
+    private String carNumber;
+
     @OneToMany(mappedBy = "car")
     private List<Reservations> reservations;
 
     public UserCars() {
     }
 
-    public UserCars(Users user, CarBrands brand, CarModels model, List<Reservations> reservations) {
+    public UserCars(Users user, CarBrands brand, CarModels model, String carNumber) {
         this.user = user;
         this.brand = brand;
         this.model = model;
-        this.reservations = reservations;
+        this.carNumber = carNumber;
     }
 
     public Long getId() {

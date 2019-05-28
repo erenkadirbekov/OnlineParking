@@ -218,7 +218,7 @@ public class DriverBean {
     public String createCarNumber(Long regionalIndexId, String number) {
         RegionalIndices regionalIndex = getRegionalIndexById(regionalIndexId);
         number = number.toUpperCase();
-        String carNumber = number + " |" + regionalIndex.getDigitalIndex() + "(" + regionalIndex.getLeterIndex() + ")";
+        String carNumber = number + " |" + regionalIndex.getDigitalIndex() + "(" + regionalIndex.getLetterIndex() + ")";
         return carNumber;
     }
 

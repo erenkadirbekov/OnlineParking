@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Тынышбай Нуржан
@@ -57,7 +58,20 @@
                         ${user.name}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="/Employee/employeePage">Dashboard</a>
+                        <c:choose>
+                            <c:when test="${user.role.id == 1}">
+                                <a class="dropdown-item" href="/Driver/driverPage">Dashboard</a>
+                            </c:when>
+                            <c:when test="${user.role.id == 2}">
+                                <a class="dropdown-item" href="/Employee/employeePage">Dashboard</a>
+                            </c:when>
+                            <c:when test="${user.role.id == 3}">
+                                <a class="dropdown-item" href="/Owner/ownerPage">Dashboard</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="dropdown-item" href="/Admin/adminPage">Dashboard</a>
+                            </c:otherwise>
+                        </c:choose>
                         <a class="dropdown-item" href="/faqPage">Bookings Received</a>
                         <a href="/profileSettingsPage" class="dropdown-item">Profile Settings</a>
                         <a class="dropdown-item" href="/faqPage">FAQ</a>
@@ -107,7 +121,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Password</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="password" name="password" value="${user.password}">
+                                <input class="form-control" type="password" name="password" placeholder="enter new password">
                             </div>
                         </div>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

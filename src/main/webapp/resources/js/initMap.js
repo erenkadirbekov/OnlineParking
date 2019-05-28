@@ -14,7 +14,7 @@ function init() {
             var m = new ymaps.Placemark([marker.latitude, marker.longitude], {
                 balloonContentHeader: '<a href = "/index"></a><br>' +
                     '<span class="description">' + marker.street + ' ' + marker.houseNumber + '</span>',
-                balloonContentBody: '<img src="img/cinema.jpg" height="150" width="200"> <br/> ' +
+                balloonContentBody:
                     '<a href="tel:+7-123-456-78-90">+7 (123) 456-78-90</a><br/>' +
                     '<b>Cost</b> <br/>' + marker.cost + ' tenge <br/> <a href="/Driver/chosenParking?id='+marker.id+'">Open</a>'
                 ,

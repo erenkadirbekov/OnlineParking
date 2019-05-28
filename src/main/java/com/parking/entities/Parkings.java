@@ -204,4 +204,12 @@ public class Parkings implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public List<Users> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Users> employees) {
+        this.employees = employees;
+    }
 }

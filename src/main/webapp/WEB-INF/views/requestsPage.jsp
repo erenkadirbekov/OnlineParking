@@ -156,18 +156,9 @@
         <div class="col-lg-3 mb-4">
             <div class="list-group">
                 <a href="/Admin/adminPage" class="list-group-item">Dashboard</a>
-                <a href="about.html" class="list-group-item">Bookings Made</a>
-                <a href="services.html" class="list-group-item">Bookings Received</a>
                 <a href="/Admin/requests" class="list-group-item">Requests</a>
-                <a href="contact.html" class="list-group-item">Add Space</a>
-                <a href="portfolio-1-col.html" class="list-group-item">My Spaces</a>
-                <a href="portfolio-2-col.html" class="list-group-item">Profile Setting</a>
-                <a href="portfolio-3-col.html" class="list-group-item">Data Preferences</a>
-                <a href="portfolio-4-col.html" class="list-group-item">Feedback Management</a>
-                <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
-                <a href="blog-home-1.html" class="list-group-item">Transactions</a>
-                <a href="blog-home-2.html" class="list-group-item">Payment Sources</a>
-                <a href="blog-post.html" class="list-group-item">Withdrawal Methods</a>
+                <a href="/profileSettingsPage" class="list-group-item">Profile Setting</a>
+
             </div>
         </div>
         <!-- Content Column -->
@@ -197,7 +188,7 @@
                         <td>${parking.street}</td>
                         <td>${parking.postalCode}</td>
                         <td>${parking.cost}</td>
-                        <td><a href="/Admin/parkingLocation/${parking.id}" class="btn btn-primary">Confirm</a></td>
+                        <td><a href="/Admin/parkingLocation/${parking.id}" class="btn btn-primary">Show</a></td>
                         <td>
                             <form action="/Admin/addParking" method="post">
                                 <input type="hidden" name="id" value="${parking.id}">

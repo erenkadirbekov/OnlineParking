@@ -177,4 +177,17 @@ public class DBBean {
 
         return model;
     }
+
+    public ArrayList<Users> getAllUsers() {
+
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Users> query = builder.createQuery(Users.class);
+        Root<Users> root = query.from(Users.class);
+        ArrayList<Users> users = (ArrayList<Users>) session.createQuery(query).getResultList();
+        session.close();
+
+        return users;
+
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 
 @Controller
@@ -60,6 +62,17 @@ public class MainController {
     @RequestMapping(value = "/registrationPage", method = RequestMethod.GET)
     public ModelAndView registrationPage(){
         ModelAndView mw = new ModelAndView("registration");
+
+        return mw;
+    }
+
+    @RequestMapping(value =  "/registrationPage/{error}", method = RequestMethod.GET)
+    public ModelAndView registrationPageError(@PathVariable int error) {
+        ModelAndView mw = new ModelAndView("registration");
+
+
+        mw.addObject("error1", error);
+
         return mw;
     }
 
@@ -122,9 +135,24 @@ public class MainController {
 
         Users user = new Users(roles, name, surname, email, password);
 
+        ArrayList<Users> users = dbBean.getAllUsers();
+
+        for (Users u : users) {
+            if (u.getEmail().equals(email)) {
+
+                if(role.equals("driver")){
+                    return "redirect:/registrationPage/" + 1;
+                }else{
+                    return "redirect:/registrationPage/" + 2;
+                }
+
+
+            }
+        }
+
         dbBean.addObject(user);
 
-        return "redirect:/index";
+        return "redirect:/loginPage";
     }
     @RequestMapping(value = "/profileSettingsPage", method = RequestMethod.GET)
     public ModelAndView profileSettingsPage(){

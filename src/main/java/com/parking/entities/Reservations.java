@@ -20,6 +20,9 @@ public class Reservations implements Serializable {
     @JoinColumn(name = "user_car__model_id")
     private CarModels car;
 
+    @Column(name = "car_number")
+    private String carNumber;
+
     @ManyToOne
     @JoinColumn(name = "prk_id")
     private Parkings parking;
@@ -45,6 +48,18 @@ public class Reservations implements Serializable {
     public Reservations(Users user, /*UserCars car,*/ Parkings parking, Timestamp reserveTime, Timestamp startTime, Timestamp endTime, double cost, int status) {
         this.user = user;
         //this.car = car;
+        this.parking = parking;
+        this.reserveTime = reserveTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.cost = cost;
+        this.status = status;
+    }
+
+    public Reservations(Users user, CarModels car, String carNumber, Parkings parking, Timestamp reserveTime, Timestamp startTime, Timestamp endTime, double cost, int status) {
+        this.user = user;
+        this.car = car;
+        this.carNumber = carNumber;
         this.parking = parking;
         this.reserveTime = reserveTime;
         this.startTime = startTime;

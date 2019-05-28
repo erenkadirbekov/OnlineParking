@@ -95,7 +95,6 @@
                         <a class="dropdown-item" href="/Owner/ownerPage">Dashboard</a>
                         <a class="dropdown-item" href="/faqPage">Bookings Received</a>
                         <a href="/Owner/createParkingPage" class="dropdown-item">Add Space</a>
-                        <a href="/Owner/createParkingPage" class="dropdown-item">My Spaces</a>
                         <a class="dropdown-item" href="404.html">Transactions</a>
                         <a href="/Owner/createParkingPage" class="dropdown-item">Profile Settings</a>
                         <a class="dropdown-item" href="/faqPage">FAQ</a>
@@ -117,7 +116,7 @@
 
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">Dashboard
-        <small>Welcome, Admin, ${user.surname} ${user.name}</small>
+        <small>Welcome, ${user.surname} ${user.name}</small>
     </h1>
 
 

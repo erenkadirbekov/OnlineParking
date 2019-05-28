@@ -63,7 +63,7 @@ public class AdminController {
         Parkings parking = adminBean.getParkingById(id);
         parking.setStatus(1);
         adminBean.updateInactiveParking(parking);
-        return "redirect:/Admin/adminPage";
+        return "redirect:/Admin/requests";
     }
 
     @ResponseBody

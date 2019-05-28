@@ -52,12 +52,9 @@
                         ${user.name}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="/Admin/adminPage">Dashboard</a>
+                        <a class="dropdown-item active" href="/Admin/adminPage">Dashboard</a>
                         <a href="/Owner/createParkingPage" class="dropdown-item">Bookings</a>
                         <a class="dropdown-item" href="/Admin/requests">Requests</a>
-                        <a class="dropdown-item" href="404.html">Parking Spaces</a>
-                        <a class="dropdown-item" href="404.html">Vehicles</a>
-                        <a class="dropdown-item" href="404.html">Transactions</a>
                         <a class="dropdown-item" href="/profileSettingsPage">Profile Settings</a>
                         <a class="dropdown-item" href="/faqPage">FAQ</a>
 
@@ -87,12 +84,8 @@
         <div class="col-lg-3 mb-4">
             <div class="list-group">
                 <a href="/Admin/adminPage" class="list-group-item">Dashboard</a>
-                <a href="about.html" class="list-group-item">Bookings</a>
                 <a href="/Admin/requests" class="list-group-item">Requests</a>
-                <a href="portfolio-1-col.html" class="list-group-item">Parking Spaces</a>
                 <a href="/profileSettingsPage" class="list-group-item">Profile Setting</a>
-                <a href="portfolio-item.html" class="list-group-item">Vehicles</a>
-                <a href="blog-home-1.html" class="list-group-item">Transactions</a>
             </div>
         </div>
         <!-- Content Column -->

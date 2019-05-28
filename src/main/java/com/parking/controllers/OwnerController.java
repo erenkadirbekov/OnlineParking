@@ -42,6 +42,8 @@ public class OwnerController {
     public ModelAndView createParkingPage(){
         ModelAndView mw = new ModelAndView("createParkingPage");
         ArrayList<Cities> cities = ownerBean.getAllCities();
+        Users user = dbBean.getUserData();
+        mw.addObject("user", user);
         mw.addObject("cities", cities);
 
         return mw;
